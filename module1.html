@@ -1159,9 +1159,9 @@
             const phraseNumber = button.closest('.card')
                 .querySelector('.phrase-number').textContent.split('/')[0];
             
-            // Создаем путь к аудиофайлу
+            // Создаем путь к аудиофайлу для модуля 1
             const paddedNumber = phraseNumber.padStart(3, '0');
-            const audioUrl = `./audio/phrase_${paddedNumber}_${speed}.mp3`;
+            const audioUrl = `./audio/module1/phrase_${paddedNumber}_${speed}.mp3`;
             
             // Играем реальное аудио
             playRealAudio(audioUrl, button);
