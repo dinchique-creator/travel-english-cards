@@ -49,6 +49,35 @@
             margin-bottom: 8px;
         }
 
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .export-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .export-btn:hover {
+            background: #c0392b;
+            transform: translateY(-1px);
+        }
+
         .instructions {
             background: white;
             padding: 20px;
@@ -78,26 +107,6 @@
             font-weight: 600;
         }
 
-        .audio-notice {
-            background: #e8f5e8;
-            border: 1px solid #27ae60;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            text-align: center;
-            color: #1e7e34;
-        }
-
-        .audio-notice .real-audio-icon {
-            color: #27ae60;
-            font-size: 1.1rem;
-        }
-
-        .audio-notice .demo-audio-icon {
-            color: #95a5a6;
-            font-size: 1.1rem;
-        }
-
         .cards-container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -118,19 +127,6 @@
 
         .card:hover {
             box-shadow: 0 4px 16px rgba(0,0,0,0.12);
-        }
-
-        .card.has-audio::before {
-            content: "🎵";
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            font-size: 1.3rem;
-            opacity: 0.8;
-            background: #e8f5e8;
-            padding: 4px 8px;
-            border-radius: 50%;
-            border: 2px solid #27ae60;
         }
 
         .card-header {
@@ -180,7 +176,7 @@
         }
 
         .audio-btn {
-            background: #3498db;
+            background: #27ae60;
             color: white;
             border: none;
             padding: 8px 16px;
@@ -195,7 +191,7 @@
         }
 
         .audio-btn:hover {
-            background: #2980b9;
+            background: #229954;
             transform: translateY(-1px);
         }
 
@@ -204,35 +200,18 @@
         }
 
         .audio-btn.playing {
-            background: #27ae60;
+            background: #f39c12;
             animation: pulse 2s infinite;
         }
 
-        .audio-btn.real-audio {
-            background: #27ae60;
-            box-shadow: 0 2px 8px rgba(39, 174, 96, 0.3);
-        }
-
-        .audio-btn.real-audio:hover {
-            background: #229954;
-        }
-
-        .audio-btn.demo-audio {
+        .audio-btn.loading {
             background: #95a5a6;
         }
 
-        .audio-btn.demo-audio:hover {
-            background: #7f8c8d;
-        }
-
-        .audio-btn.loading {
-            background: #f39c12;
-        }
-
         @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(39, 174, 96, 0.7); }
-            70% { box-shadow: 0 0 0 10px rgba(39, 174, 96, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(39, 174, 96, 0); }
+            0% { box-shadow: 0 0 0 0 rgba(243, 156, 18, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(243, 156, 18, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(243, 156, 18, 0); }
         }
 
         /* Цветовое кодирование разделов */
@@ -245,6 +224,31 @@
         .problems .category { background: #fdebeb; color: #e74c3c; }
         .delays .category { background: #fdf6eb; color: #f39c12; }
         .politeness .category { background: #eafaf1; color: #27ae60; }
+
+        /* PDF стили */
+        @media print {
+            body { 
+                background: white; 
+                padding: 10px;
+                font-size: 12px;
+            }
+            .back-link, .controls, .instructions { display: none; }
+            .cards-container { 
+                grid-template-columns: repeat(2, 1fr); 
+                gap: 10px;
+                max-width: none;
+            }
+            .card { 
+                break-inside: avoid; 
+                margin-bottom: 10px;
+                padding: 15px;
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+            .audio-buttons { display: none; }
+            .english-phrase { font-size: 1.1rem; }
+            .russian-phrase { font-size: 0.9rem; }
+        }
 
         @media (max-width: 768px) {
             .cards-container {
@@ -263,6 +267,11 @@
             .audio-buttons {
                 justify-content: center;
             }
+
+            .controls {
+                flex-direction: column;
+                align-items: center;
+            }
         }
     </style>
 </head>
@@ -274,19 +283,18 @@
         <p>Модуль 1: Аэропорт и регистрация — 65 практических фраз</p>
     </div>
 
-    <div class="instructions">
-        <h3>📋 Нажимайте кнопки для прослушивания произношения</h3>
-        <p>🐌 <span class="highlight">Slow</span> — медленное произношение • ⚡ <span class="highlight">Natural</span> — естественная скорость</p>
+    <div class="controls">
+        <button class="export-btn" onclick="exportToPDF()">📄 Экспорт в PDF</button>
     </div>
 
-    <div class="audio-notice">
-        <p><span class="real-audio-icon">🎵</span> <strong>Фразы 1-3:</strong> Настоящее аудио с носителем языка</p>
-        <p><span class="demo-audio-icon">🔊</span> <strong>Фразы 4-65:</strong> Демо-звуки (в полной версии курса будет настоящее аудио)</p>
+    <div class="instructions">
+        <h3>📋 Нажимайте кнопки для прослушивания произношения</h3>
+        <p>🌐 <span class="highlight">Slow</span> — медленное произношение • ⚡ <span class="highlight">Natural</span> — естественная скорость</p>
     </div>
 
     <div class="cards-container">
         <!-- БЛОК А: РЕГИСТРАЦИЯ НА РЕЙС (1-20) -->
-        <div class="card registration has-audio">
+        <div class="card registration">
             <div class="card-header">
                 <span class="phrase-number">1/65</span>
                 <span class="category">Регистрация</span>
@@ -294,12 +302,12 @@
             <div class="english-phrase">I'd like to check in, please</div>
             <div class="russian-phrase">Я хотел бы зарегистрироваться</div>
             <div class="audio-buttons">
-                <button class="audio-btn real-audio" onclick="playAudio(this, 'slow')">🐌 Slow</button>
-                <button class="audio-btn real-audio" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌐 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
             </div>
         </div>
 
-        <div class="card registration has-audio">
+        <div class="card registration">
             <div class="card-header">
                 <span class="phrase-number">2/65</span>
                 <span class="category">Регистрация</span>
@@ -307,12 +315,12 @@
             <div class="english-phrase">Here's my passport and ticket</div>
             <div class="russian-phrase">Вот мой паспорт и билет</div>
             <div class="audio-buttons">
-                <button class="audio-btn real-audio" onclick="playAudio(this, 'slow')">🐌 Slow</button>
-                <button class="audio-btn real-audio" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌐 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
             </div>
         </div>
 
-        <div class="card registration has-audio">
+        <div class="card registration">
             <div class="card-header">
                 <span class="phrase-number">3/65</span>
                 <span class="category">Регистрация</span>
@@ -320,8 +328,8 @@
             <div class="english-phrase">I already checked in online</div>
             <div class="russian-phrase">Я уже зарегистрировался онлайн</div>
             <div class="audio-buttons">
-                <button class="audio-btn real-audio" onclick="playAudio(this, 'slow')">🐌 Slow</button>
-                <button class="audio-btn real-audio" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌐 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
             </div>
         </div>
 
@@ -333,8 +341,8 @@
             <div class="english-phrase">I need to drop off my bag only</div>
             <div class="russian-phrase">Мне нужно только сдать багаж</div>
             <div class="audio-buttons">
-                <button class="audio-btn demo-audio" onclick="playAudio(this, 'slow')">🐌 Slow</button>
-                <button class="audio-btn demo-audio" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌐 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
             </div>
         </div>
 
@@ -346,13 +354,11 @@
             <div class="english-phrase">Could I have a window seat?</div>
             <div class="russian-phrase">Можно место у окна?</div>
             <div class="audio-buttons">
-                <button class="audio-btn demo-audio" onclick="playAudio(this, 'slow')">🐌 Slow</button>
-                <button class="audio-btn demo-audio" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌐 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
             </div>
         </div>
 
-        <!-- Остальные карточки 6-65 с demo-audio классом -->
-        <!-- Для краткости показываю только несколько примеров -->
         <div class="card registration">
             <div class="card-header">
                 <span class="phrase-number">6/65</span>
@@ -361,14 +367,194 @@
             <div class="english-phrase">Could I have an aisle seat?</div>
             <div class="russian-phrase">Можно место у прохода?</div>
             <div class="audio-buttons">
-                <button class="audio-btn demo-audio" onclick="playAudio(this, 'slow')">🐌 Slow</button>
-                <button class="audio-btn demo-audio" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌐 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
             </div>
         </div>
 
-        <!-- Здесь должны быть все остальные 59 карточек с demo-audio классом -->
-        <!-- Для экономии места показываю только ключевые примеры -->
+        <div class="card registration">
+            <div class="card-header">
+                <span class="phrase-number">7/65</span>
+                <span class="category">Места</span>
+            </div>
+            <div class="english-phrase">Any seat is fine</div>
+            <div class="russian-phrase">Любое место подойдет</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌐 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
 
+        <div class="card registration">
+            <div class="card-header">
+                <span class="phrase-number">8/65</span>
+                <span class="category">Места</span>
+            </div>
+            <div class="english-phrase">We're traveling together</div>
+            <div class="russian-phrase">Мы путешествуем вместе</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌐 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card registration">
+            <div class="card-header">
+                <span class="phrase-number">9/65</span>
+                <span class="category">Места</span>
+            </div>
+            <div class="english-phrase">Can we sit together?</div>
+            <div class="russian-phrase">Можно нас посадить рядом?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌐 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card registration">
+            <div class="card-header">
+                <span class="phrase-number">10/65</span>
+                <span class="category">Багаж</span>
+            </div>
+            <div class="english-phrase">How many bags am I allowed?</div>
+            <div class="russian-phrase">Сколько сумок можно?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌐 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card registration">
+            <div class="card-header">
+                <span class="phrase-number">11/65</span>
+                <span class="category">Багаж</span>
+            </div>
+            <div class="english-phrase">I have one bag to check</div>
+            <div class="russian-phrase">У меня одна сумка для сдачи</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌐 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card registration">
+            <div class="card-header">
+                <span class="phrase-number">12/65</span>
+                <span class="category">Багаж</span>
+            </div>
+            <div class="english-phrase">This is my carry-on</div>
+            <div class="russian-phrase">Это моя ручная кладь</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌐 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card registration">
+            <div class="card-header">
+                <span class="phrase-number">13/65</span>
+                <span class="category">Багаж</span>
+            </div>
+            <div class="english-phrase">Is this bag within the weight limit?</div>
+            <div class="russian-phrase">Эта сумка в пределах нормы?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌐 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card registration">
+            <div class="card-header">
+                <span class="phrase-number">14/65</span>
+                <span class="category">Багаж</span>
+            </div>
+            <div class="english-phrase">Do I need to pay extra?</div>
+            <div class="russian-phrase">Нужно доплачивать?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌐 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card registration">
+            <div class="card-header">
+                <span class="phrase-number">15/65</span>
+                <span class="category">Багаж</span>
+            </div>
+            <div class="english-phrase">I have fragile items in this bag</div>
+            <div class="russian-phrase">У меня хрупкие вещи в сумке</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌐 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card registration">
+            <div class="card-header">
+                <span class="phrase-number">16/65</span>
+                <span class="category">Багаж</span>
+            </div>
+            <div class="english-phrase">Can I take this on the plane?</div>
+            <div class="russian-phrase">Можно взять это в самолет?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌐 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card registration">
+            <div class="card-header">
+                <span class="phrase-number">17/65</span>
+                <span class="category">Рейс</span>
+            </div>
+            <div class="english-phrase">What time does boarding start?</div>
+            <div class="russian-phrase">Во сколько начинается посадка?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌐 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card registration">
+            <div class="card-header">
+                <span class="phrase-number">18/65</span>
+                <span class="category">Рейс</span>
+            </div>
+            <div class="english-phrase">What's my gate number?</div>
+            <div class="russian-phrase">Какой у меня номер выхода?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌐 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card registration">
+            <div class="card-header">
+                <span class="phrase-number">19/65</span>
+                <span class="category">Билеты</span>
+            </div>
+            <div class="english-phrase">Could you print my boarding pass?</div>
+            <div class="russian-phrase">Можете распечатать посадочный?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌐 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card registration">
+            <div class="card-header">
+                <span class="phrase-number">20/65</span>
+                <span class="category">Билеты</span>
+            </div>
+            <div class="english-phrase">I have a mobile boarding pass</div>
+            <div class="russian-phrase">У меня электронный посадочный</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌐 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <!-- БЛОК Б: ПРОБЛЕМЫ С БИЛЕТАМИ И ДОКУМЕНТАМИ (21-40) -->
         <div class="card problems">
             <div class="card-header">
                 <span class="phrase-number">21/65</span>
@@ -377,11 +563,259 @@
             <div class="english-phrase">My seat is already taken</div>
             <div class="russian-phrase">Мое место уже занято</div>
             <div class="audio-buttons">
-                <button class="audio-btn demo-audio" onclick="playAudio(this, 'slow')">🐌 Slow</button>
-                <button class="audio-btn demo-audio" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌐 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
             </div>
         </div>
 
+        <div class="card problems">
+            <div class="card-header">
+                <span class="phrase-number">22/65</span>
+                <span class="category">Проблемы места</span>
+            </div>
+            <div class="english-phrase">Can I change my seat?</div>
+            <div class="russian-phrase">Можно поменять место?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌐 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card problems">
+            <div class="card-header">
+                <span class="phrase-number">23/65</span>
+                <span class="category">Проблемы места</span>
+            </div>
+            <div class="english-phrase">I need to upgrade my seat</div>
+            <div class="russian-phrase">Мне нужно улучшить место</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌐 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card problems">
+            <div class="card-header">
+                <span class="phrase-number">24/65</span>
+                <span class="category">Проблемы места</span>
+            </div>
+            <div class="english-phrase">Are there any better seats available?</div>
+            <div class="russian-phrase">Есть места получше?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌐 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card problems">
+            <div class="card-header">
+                <span class="phrase-number">25/65</span>
+                <span class="category">Проблемы места</span>
+            </div>
+            <div class="english-phrase">I can't find my seat number</div>
+            <div class="russian-phrase">Не могу найти номер своего места</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌐 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card problems">
+            <div class="card-header">
+                <span class="phrase-number">26/65</span>
+                <span class="category">Документы</span>
+            </div>
+            <div class="english-phrase">My name is spelled differently on the ticket</div>
+            <div class="russian-phrase">Имя в билете написано по-другому</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌐 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card problems">
+            <div class="card-header">
+                <span class="phrase-number">27/65</span>
+                <span class="category">Документы</span>
+            </div>
+            <div class="english-phrase">My passport expires soon, is that okay?</div>
+            <div class="russian-phrase">Паспорт скоро истекает, это нормально?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌐 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card problems">
+            <div class="card-header">
+                <span class="phrase-number">28/65</span>
+                <span class="category">Документы</span>
+            </div>
+            <div class="english-phrase">I have a temporary passport</div>
+            <div class="russian-phrase">У меня временный паспорт</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌐 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card problems">
+            <div class="card-header">
+                <span class="phrase-number">29/65</span>
+                <span class="category">Документы</span>
+            </div>
+            <div class="english-phrase">Can you check my documents?</div>
+            <div class="russian-phrase">Можете проверить мои документы?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌐 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card problems">
+            <div class="card-header">
+                <span class="phrase-number">30/65</span>
+                <span class="category">Документы</span>
+            </div>
+            <div class="english-phrase">I forgot my passport, what should I do?</div>
+            <div class="russian-phrase">Забыл паспорт, что делать?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌐 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card problems">
+            <div class="card-header">
+                <span class="phrase-number">31/65</span>
+                <span class="category">Проблемы багаж</span>
+            </div>
+            <div class="english-phrase">My bag is overweight</div>
+            <div class="russian-phrase">Моя сумка слишком тяжелая</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌐 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card problems">
+            <div class="card-header">
+                <span class="phrase-number">32/65</span>
+                <span class="category">Проблемы багаж</span>
+            </div>
+            <div class="english-phrase">How much is the excess baggage fee?</div>
+            <div class="russian-phrase">Сколько стоит превышение веса?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌐 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card problems">
+            <div class="card-header">
+                <span class="phrase-number">33/65</span>
+                <span class="category">Проблемы багаж</span>
+            </div>
+            <div class="english-phrase">Can I remove some items?</div>
+            <div class="russian-phrase">Можно убрать некоторые вещи?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌐 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card problems">
+            <div class="card-header">
+                <span class="phrase-number">34/65</span>
+                <span class="category">Проблемы багаж</span>
+            </div>
+            <div class="english-phrase">Where can I repack my bag?</div>
+            <div class="russian-phrase">Где можно переупаковать сумку?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌐 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card problems">
+            <div class="card-header">
+                <span class="phrase-number">35/65</span>
+                <span class="category">Проблемы багаж</span>
+            </div>
+            <div class="english-phrase">My bag won't close properly</div>
+            <div class="russian-phrase">Моя сумка не закрывается</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌐 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card problems">
+            <div class="card-header">
+                <span class="phrase-number">36/65</span>
+                <span class="category">Технические</span>
+            </div>
+            <div class="english-phrase">The kiosk isn't working</div>
+            <div class="russian-phrase">Киоск не работает</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌐 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card problems">
+            <div class="card-header">
+                <span class="phrase-number">37/65</span>
+                <span class="category">Технические</span>
+            </div>
+            <div class="english-phrase">I can't print my boarding pass</div>
+            <div class="russian-phrase">Не могу распечатать посадочный</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌐 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card problems">
+            <div class="card-header">
+                <span class="phrase-number">38/65</span>
+                <span class="category">Технические</span>
+            </div>
+            <div class="english-phrase">My ticket won't scan</div>
+            <div class="russian-phrase">Мой билет не сканируется</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌐 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card problems">
+            <div class="card-header">
+                <span class="phrase-number">39/65</span>
+                <span class="category">Технические</span>
+            </div>
+            <div class="english-phrase">The system shows my flight is canceled</div>
+            <div class="russian-phrase">Система показывает, что рейс отменен</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌐 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card problems">
+            <div class="card-header">
+                <span class="phrase-number">40/65</span>
+                <span class="category">Технические</span>
+            </div>
+            <div class="english-phrase">I need help with the check-in machine</div>
+            <div class="russian-phrase">Мне нужна помощь с регистрационным автоматом</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌐 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <!-- БЛОК В: ЗАДЕРЖКИ И ЭКСТРЕННЫЕ СИТУАЦИИ (41-60) -->
         <div class="card delays">
             <div class="card-header">
                 <span class="phrase-number">41/65</span>
@@ -390,8 +824,308 @@
             <div class="english-phrase">Is my flight delayed?</div>
             <div class="russian-phrase">Мой рейс задерживается?</div>
             <div class="audio-buttons">
-                <button class="audio-btn demo-audio" onclick="playAudio(this, 'slow')">🐌 Slow</button>
-                <button class="audio-btn demo-audio" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌐 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card delays">
+            <div class="card-header">
+                <span class="phrase-number">42/65</span>
+                <span class="category">Задержки</span>
+            </div>
+            <div class="english-phrase">How long is the delay?</div>
+            <div class="russian-phrase">На сколько задержка?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌐 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card delays">
+            <div class="card-header">
+                <span class="phrase-number">43/65</span>
+                <span class="category">Задержки</span>
+            </div>
+            <div class="english-phrase">When is the new departure time?</div>
+            <div class="russian-phrase">Во сколько новое время вылета?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌐 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card delays">
+            <div class="card-header">
+                <span class="phrase-number">44/65</span>
+                <span class="category">Задержки</span>
+            </div>
+            <div class="english-phrase">Why is the flight delayed?</div>
+            <div class="russian-phrase">Почему рейс задерживается?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌐 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card delays">
+            <div class="card-header">
+                <span class="phrase-number">45/65</span>
+                <span class="category">Задержки</span>
+            </div>
+            <div class="english-phrase">Will I miss my connection?</div>
+            <div class="russian-phrase">Не опоздаю ли я на пересадку?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌐 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card delays">
+            <div class="card-header">
+                <span class="phrase-number">46/65</span>
+                <span class="category">Отмены</span>
+            </div>
+            <div class="english-phrase">My flight has been canceled</div>
+            <div class="russian-phrase">Мой рейс отменили</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌐 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card delays">
+            <div class="card-header">
+                <span class="phrase-number">47/65</span>
+                <span class="category">Отмены</span>
+            </div>
+            <div class="english-phrase">When is the next available flight?</div>
+            <div class="russian-phrase">Когда следующий доступный рейс?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌐 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card delays">
+            <div class="card-header">
+                <span class="phrase-number">48/65</span>
+                <span class="category">Отмены</span>
+            </div>
+            <div class="english-phrase">Can I get a refund?</div>
+            <div class="russian-phrase">Можно вернуть деньги?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌐 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card delays">
+            <div class="card-header">
+                <span class="phrase-number">49/65</span>
+                <span class="category">Отмены</span>
+            </div>
+            <div class="english-phrase">I need to change my flight</div>
+            <div class="russian-phrase">Мне нужно поменять рейс</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌐 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card delays">
+            <div class="card-header">
+                <span class="phrase-number">50/65</span>
+                <span class="category">Отмены</span>
+            </div>
+            <div class="english-phrase">Is there a flight today?</div>
+            <div class="russian-phrase">Есть ли рейс сегодня?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌐 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card delays">
+            <div class="card-header">
+                <span class="phrase-number">51/65</span>
+                <span class="category">Опоздания</span>
+            </div>
+            <div class="english-phrase">Am I too late to check in?</div>
+            <div class="russian-phrase">Не опоздал ли я на регистрацию?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌐 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card delays">
+            <div class="card-header">
+                <span class="phrase-number">52/65</span>
+                <span class="category">Опоздания</span>
+            </div>
+            <div class="english-phrase">When does check-in close?</div>
+            <div class="russian-phrase">Когда заканчивается регистрация?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌐 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card delays">
+            <div class="card-header">
+                <span class="phrase-number">53/65</span>
+                <span class="category">Опоздания</span>
+            </div>
+            <div class="english-phrase">Can you still check me in?</div>
+            <div class="russian-phrase">Можете еще меня зарегистрировать?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌐 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card delays">
+            <div class="card-header">
+                <span class="phrase-number">54/65</span>
+                <span class="category">Опоздания</span>
+            </div>
+            <div class="english-phrase">I'm running late for my flight</div>
+            <div class="russian-phrase">Я опаздываю на рейс</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌐 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card delays">
+            <div class="card-header">
+                <span class="phrase-number">55/65</span>
+                <span class="category">Опоздания</span>
+            </div>
+            <div class="english-phrase">Where's the fastest security line?</div>
+            <div class="russian-phrase">Где самая быстрая очередь на досмотр?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌐 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card delays">
+            <div class="card-header">
+                <span class="phrase-number">56/65</span>
+                <span class="category">Помощь</span>
+            </div>
+            <div class="english-phrase">Where is the information desk?</div>
+            <div class="russian-phrase">Где справочная?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌐 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card delays">
+            <div class="card-header">
+                <span class="phrase-number">57/65</span>
+                <span class="category">Помощь</span>
+            </div>
+            <div class="english-phrase">I need to speak to a manager</div>
+            <div class="russian-phrase">Мне нужно поговорить с менеджером</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌐 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card delays">
+            <div class="card-header">
+                <span class="phrase-number">58/65</span>
+                <span class="category">Помощь</span>
+            </div>
+            <div class="english-phrase">Can you help me find my gate?</div>
+            <div class="russian-phrase">Можете помочь найти мой выход?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌐 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card delays">
+            <div class="card-header">
+                <span class="phrase-number">59/65</span>
+                <span class="category">Помощь</span>
+            </div>
+            <div class="english-phrase">Which way to security?</div>
+            <div class="russian-phrase">Как пройти к досмотру?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌐 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card delays">
+            <div class="card-header">
+                <span class="phrase-number">60/65</span>
+                <span class="category">Помощь</span>
+            </div>
+            <div class="english-phrase">Where are the restrooms?</div>
+            <div class="russian-phrase">Где туалеты?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌐 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <!-- БЛОК Г: ВЕЖЛИВОСТЬ И ЗАВЕРШЕНИЕ (61-65) -->
+        <div class="card politeness">
+            <div class="card-header">
+                <span class="phrase-number">61/65</span>
+                <span class="category">Вежливость</span>
+            </div>
+            <div class="english-phrase">Thank you for your help</div>
+            <div class="russian-phrase">Спасибо за помощь</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌐 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card politeness">
+            <div class="card-header">
+                <span class="phrase-number">62/65</span>
+                <span class="category">Вежливость</span>
+            </div>
+            <div class="english-phrase">Could you repeat that, please?</div>
+            <div class="russian-phrase">Можете повторить, пожалуйста?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌐 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card politeness">
+            <div class="card-header">
+                <span class="phrase-number">63/65</span>
+                <span class="category">Вежливость</span>
+            </div>
+            <div class="english-phrase">I don't understand</div>
+            <div class="russian-phrase">Я не понимаю</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌐 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card politeness">
+            <div class="card-header">
+                <span class="phrase-number">64/65</span>
+                <span class="category">Вежливость</span>
+            </div>
+            <div class="english-phrase">Could you speak slower?</div>
+            <div class="russian-phrase">Можете говорить медленнее?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌐 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
             </div>
         </div>
 
@@ -403,8 +1137,8 @@
             <div class="english-phrase">Have a great day</div>
             <div class="russian-phrase">Хорошего дня</div>
             <div class="audio-buttons">
-                <button class="audio-btn demo-audio" onclick="playAudio(this, 'slow')">🐌 Slow</button>
-                <button class="audio-btn demo-audio" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌐 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
             </div>
         </div>
     </div>
@@ -425,18 +1159,12 @@
             const phraseNumber = button.closest('.card')
                 .querySelector('.phrase-number').textContent.split('/')[0];
             
-            // Проверяем, есть ли реальное аудио для этой фразы
-            const availableAudio = ['001', '002', '003']; // Фразы с реальным аудио
+            // Создаем путь к аудиофайлу
             const paddedNumber = phraseNumber.padStart(3, '0');
+            const audioUrl = `./audio/phrase_${paddedNumber}_${speed}.mp3`;
             
-            if (availableAudio.includes(paddedNumber)) {
-                // Используем реальное аудио
-                const audioUrl = `./audio/phrase_${paddedNumber}_${speed}.mp3`;
-                playRealAudio(audioUrl, button);
-            } else {
-                // Используем демо-звук для остальных
-                playDemoAudio(button, speed);
-            }
+            // Играем реальное аудио
+            playRealAudio(audioUrl, button);
         }
 
         // Функция для реального аудио
@@ -469,7 +1197,7 @@
             currentAudio.addEventListener('error', (e) => {
                 console.error('Ошибка загрузки аудио:', audioUrl, e);
                 button.classList.remove('loading', 'playing');
-                button.textContent = '❌ Error';
+                button.textContent = '⌐ Audio N/A';
                 setTimeout(() => {
                     button.textContent = originalText;
                 }, 2000);
@@ -478,42 +1206,26 @@
             });
         }
 
-        // Функция для демо-звуков (для фраз без реального аудио)
-        function playDemoAudio(button, speed) {
-            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            
-            const phraseNumber = parseInt(button.closest('.card')
-                .querySelector('.phrase-number').textContent.split('/')[0]);
-            
-            // Разные частоты для разных фраз и скоростей
-            const baseFreq = 400 + (phraseNumber * 10);
-            const frequency = speed === 'slow' ? baseFreq : baseFreq + 200;
-            const duration = speed === 'slow' ? 1.0 : 0.6;
-            
-            button.classList.add('playing');
-            currentButton = button;
-            
-            const oscillator = audioContext.createOscillator();
-            const gainNode = audioContext.createGain();
-            
-            oscillator.connect(gainNode);
-            gainNode.connect(audioContext.destination);
-            
-            oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
-            oscillator.type = 'sine';
-            
-            gainNode.gain.setValueAtTime(0, audioContext.currentTime);
-            gainNode.gain.linearRampToValueAtTime(0.1, audioContext.currentTime + 0.05);
-            gainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + duration);
-            
-            oscillator.start(audioContext.currentTime);
-            oscillator.stop(audioContext.currentTime + duration);
+        // Функция экспорта в PDF
+        function exportToPDF() {
+            const printButton = document.querySelector('.export-btn');
+            printButton.textContent = '📄 Подготовка к печати...';
+            printButton.disabled = true;
             
             setTimeout(() => {
-                button.classList.remove('playing');
-                currentButton = null;
-            }, duration * 1000);
+                window.print();
+                printButton.textContent = '📄 Экспорт в PDF';
+                printButton.disabled = false;
+            }, 500);
         }
+
+        // Горячие клавиши
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key === 'p') {
+                e.preventDefault();
+                exportToPDF();
+            }
+        });
     </script>
 </body>
 </html>
