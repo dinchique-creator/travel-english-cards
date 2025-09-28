@@ -1,0 +1,1433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Английский для путешествий: Модуль 9 - Экстренные ситуации</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8f9fa;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .back-link:hover {
+            color: #2980b9;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+
+        .header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 8px;
+            color: #2980b9;
+            font-weight: 600;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            color: #7f8c8d;
+            margin-bottom: 8px;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .export-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .export-btn:hover {
+            background: #c0392b;
+            transform: translateY(-1px);
+        }
+
+        .instructions {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border-left: 4px solid #3498db;
+            text-align: center;
+        }
+
+        .instructions h3 {
+            color: #2c3e50;
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+        }
+
+        .instructions p {
+            color: #5d6d7e;
+            margin-bottom: 6px;
+            font-size: 0.95rem;
+        }
+
+        .instructions .highlight {
+            background: #f8f9fa;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border-left: 4px solid;
+            transition: box-shadow 0.2s ease;
+            position: relative;
+        }
+
+        .card:hover {
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .phrase-number {
+            background: #3498db;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 16px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .category {
+            background: #ecf0f1;
+            color: #34495e;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        .english-phrase {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+
+        .russian-phrase {
+            font-size: 1rem;
+            color: #7f8c8d;
+            margin-bottom: 16px;
+            font-style: italic;
+        }
+
+        .audio-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .audio-btn {
+            background: #27ae60;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .audio-btn:hover {
+            background: #229954;
+            transform: translateY(-1px);
+        }
+
+        .audio-btn:active {
+            transform: translateY(0);
+        }
+
+        .audio-btn.playing {
+            background: #f39c12;
+            animation: pulse 2s infinite;
+        }
+
+        .audio-btn.loading {
+            background: #95a5a6;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(243, 156, 18, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(243, 156, 18, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(243, 156, 18, 0); }
+        }
+
+        /* Цветовое кодирование разделов */
+        .police { border-left-color: #3498db; }
+        .medical { border-left-color: #e74c3c; }
+        .fire { border-left-color: #e67e22; }
+        .lost { border-left-color: #f39c12; }
+        .safety { border-left-color: #9b59b6; }
+        .contact { border-left-color: #27ae60; }
+
+        .police .category { background: #ebf3fd; color: #3498db; }
+        .medical .category { background: #fdebeb; color: #e74c3c; }
+        .fire .category { background: #fdf1eb; color: #e67e22; }
+        .lost .category { background: #fdf6eb; color: #f39c12; }
+        .safety .category { background: #f4ebfd; color: #9b59b6; }
+        .contact .category { background: #eafaf1; color: #27ae60; }
+
+        /* PDF стили */
+        @media print {
+            body { 
+                background: white; 
+                padding: 10px;
+                font-size: 12px;
+            }
+            .back-link, .controls, .instructions { display: none; }
+            .cards-container { 
+                grid-template-columns: repeat(2, 1fr); 
+                gap: 10px;
+                max-width: none;
+            }
+            .card { 
+                break-inside: avoid; 
+                margin-bottom: 10px;
+                padding: 15px;
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+            .audio-buttons { display: none; }
+            .english-phrase { font-size: 1.1rem; }
+            .russian-phrase { font-size: 0.9rem; }
+        }
+
+        @media (max-width: 768px) {
+            .cards-container {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+            
+            .card {
+                padding: 16px;
+            }
+            
+            .english-phrase {
+                font-size: 1.2rem;
+            }
+            
+            .audio-buttons {
+                justify-content: center;
+            }
+
+            .controls {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-link">← Вернуться ко всем модулям</a>
+
+    <div class="header">
+        <h1>🚨 Английский для путешествий</h1>
+        <p>Модуль 9: Экстренные ситуации — 80 практических фраз</p>
+    </div>
+
+    <div class="controls">
+        <button class="export-btn" onclick="exportToPDF()">📄 Экспорт в PDF</button>
+    </div>
+
+    <div class="instructions">
+        <h3>📋 Нажимайте кнопки для прослушивания произношения</h3>
+        <p>🌱 <span class="highlight">Slow</span> — медленное произношение • ⚡ <span class="highlight">Natural</span> — естественная скорость</p>
+    </div>
+
+    <div class="cards-container">
+        <!-- БЛОК A: ПОЛИЦИЯ И ПРАВОПОРЯДОК (1-15) -->
+        <div class="card police">
+            <div class="card-header">
+                <span class="phrase-number">1/80</span>
+                <span class="category">Полиция</span>
+            </div>
+            <div class="english-phrase">I need to call the police</div>
+            <div class="russian-phrase">Мне нужно вызвать полицию</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card police">
+            <div class="card-header">
+                <span class="phrase-number">2/80</span>
+                <span class="category">Полиция</span>
+            </div>
+            <div class="english-phrase">Where is the police station?</div>
+            <div class="russian-phrase">Где полицейский участок?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card police">
+            <div class="card-header">
+                <span class="phrase-number">3/80</span>
+                <span class="category">Полиция</span>
+            </div>
+            <div class="english-phrase">I want to report a crime</div>
+            <div class="russian-phrase">Я хочу сообщить о преступлении</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card police">
+            <div class="card-header">
+                <span class="phrase-number">4/80</span>
+                <span class="category">Полиция</span>
+            </div>
+            <div class="english-phrase">Someone stole my wallet</div>
+            <div class="russian-phrase">Кто-то украл мой кошелёк</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card police">
+            <div class="card-header">
+                <span class="phrase-number">5/80</span>
+                <span class="category">Полиция</span>
+            </div>
+            <div class="english-phrase">My bag was stolen</div>
+            <div class="russian-phrase">Мою сумку украли</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card police">
+            <div class="card-header">
+                <span class="phrase-number">6/80</span>
+                <span class="category">Полиция</span>
+            </div>
+            <div class="english-phrase">I've been robbed</div>
+            <div class="russian-phrase">Меня ограбили</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card police">
+            <div class="card-header">
+                <span class="phrase-number">7/80</span>
+                <span class="category">Полиция</span>
+            </div>
+            <div class="english-phrase">I need a police report</div>
+            <div class="russian-phrase">Мне нужна справка из полиции</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card police">
+            <div class="card-header">
+                <span class="phrase-number">8/80</span>
+                <span class="category">Полиция</span>
+            </div>
+            <div class="english-phrase">It happened about an hour ago</div>
+            <div class="russian-phrase">Это случилось около часа назад</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card police">
+            <div class="card-header">
+                <span class="phrase-number">9/80</span>
+                <span class="category">Полиция</span>
+            </div>
+            <div class="english-phrase">Can you describe the person?</div>
+            <div class="russian-phrase">Можете описать человека?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card police">
+            <div class="card-header">
+                <span class="phrase-number">10/80</span>
+                <span class="category">Полиция</span>
+            </div>
+            <div class="english-phrase">I need an interpreter</div>
+            <div class="russian-phrase">Мне нужен переводчик</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card police">
+            <div class="card-header">
+                <span class="phrase-number">11/80</span>
+                <span class="category">Полиция</span>
+            </div>
+            <div class="english-phrase">I am a tourist</div>
+            <div class="russian-phrase">Я турист</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card police">
+            <div class="card-header">
+                <span class="phrase-number">12/80</span>
+                <span class="category">Полиция</span>
+            </div>
+            <div class="english-phrase">I want to contact my embassy</div>
+            <div class="russian-phrase">Я хочу связаться с посольством</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card police">
+            <div class="card-header">
+                <span class="phrase-number">13/80</span>
+                <span class="category">Полиция</span>
+            </div>
+            <div class="english-phrase">There's been an accident</div>
+            <div class="russian-phrase">Произошёл несчастный случай</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card police">
+            <div class="card-header">
+                <span class="phrase-number">14/80</span>
+                <span class="category">Полиция</span>
+            </div>
+            <div class="english-phrase">I witnessed a crime</div>
+            <div class="russian-phrase">Я был свидетелем преступления</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card police">
+            <div class="card-header">
+                <span class="phrase-number">15/80</span>
+                <span class="category">Полиция</span>
+            </div>
+            <div class="english-phrase">Someone is following me</div>
+            <div class="russian-phrase">Кто-то за мной следит</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <!-- БЛОК B: МЕДИЦИНСКАЯ ПОМОЩЬ (16-35) -->
+        <div class="card medical">
+            <div class="card-header">
+                <span class="phrase-number">16/80</span>
+                <span class="category">Медпомощь</span>
+            </div>
+            <div class="english-phrase">Call an ambulance</div>
+            <div class="russian-phrase">Вызовите скорую помощь</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card medical">
+            <div class="card-header">
+                <span class="phrase-number">17/80</span>
+                <span class="category">Медпомощь</span>
+            </div>
+            <div class="english-phrase">I need medical help</div>
+            <div class="russian-phrase">Мне нужна медицинская помощь</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card medical">
+            <div class="card-header">
+                <span class="phrase-number">18/80</span>
+                <span class="category">Медпомощь</span>
+            </div>
+            <div class="english-phrase">Where is the nearest hospital?</div>
+            <div class="russian-phrase">Где ближайшая больница?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card medical">
+            <div class="card-header">
+                <span class="phrase-number">19/80</span>
+                <span class="category">Медпомощь</span>
+            </div>
+            <div class="english-phrase">I'm having a heart attack</div>
+            <div class="russian-phrase">У меня сердечный приступ</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card medical">
+            <div class="card-header">
+                <span class="phrase-number">20/80</span>
+                <span class="category">Медпомощь</span>
+            </div>
+            <div class="english-phrase">I can't breathe</div>
+            <div class="russian-phrase">Я не могу дышать</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card medical">
+            <div class="card-header">
+                <span class="phrase-number">21/80</span>
+                <span class="category">Медпомощь</span>
+            </div>
+            <div class="english-phrase">I'm bleeding</div>
+            <div class="russian-phrase">У меня кровотечение</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card medical">
+            <div class="card-header">
+                <span class="phrase-number">22/80</span>
+                <span class="category">Медпомощь</span>
+            </div>
+            <div class="english-phrase">I think I broke my leg</div>
+            <div class="russian-phrase">Кажется, я сломал ногу</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card medical">
+            <div class="card-header">
+                <span class="phrase-number">23/80</span>
+                <span class="category">Медпомощь</span>
+            </div>
+            <div class="english-phrase">I fell and hurt myself</div>
+            <div class="russian-phrase">Я упал и поранился</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card medical">
+            <div class="card-header">
+                <span class="phrase-number">24/80</span>
+                <span class="category">Медпомощь</span>
+            </div>
+            <div class="english-phrase">I'm having an allergic reaction</div>
+            <div class="russian-phrase">У меня аллергическая реакция</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card medical">
+            <div class="card-header">
+                <span class="phrase-number">25/80</span>
+                <span class="category">Медпомощь</span>
+            </div>
+            <div class="english-phrase">I feel dizzy</div>
+            <div class="russian-phrase">У меня кружится голова</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card medical">
+            <div class="card-header">
+                <span class="phrase-number">26/80</span>
+                <span class="category">Медпомощь</span>
+            </div>
+            <div class="english-phrase">I need my medication</div>
+            <div class="russian-phrase">Мне нужно лекарство</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card medical">
+            <div class="card-header">
+                <span class="phrase-number">27/80</span>
+                <span class="category">Медпомощь</span>
+            </div>
+            <div class="english-phrase">I'm diabetic</div>
+            <div class="russian-phrase">У меня диабет</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card medical">
+            <div class="card-header">
+                <span class="phrase-number">28/80</span>
+                <span class="category">Медпомощь</span>
+            </div>
+            <div class="english-phrase">I have high blood pressure</div>
+            <div class="russian-phrase">У меня высокое давление</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card medical">
+            <div class="card-header">
+                <span class="phrase-number">29/80</span>
+                <span class="category">Медпомощь</span>
+            </div>
+            <div class="english-phrase">I'm pregnant</div>
+            <div class="russian-phrase">Я беременна</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card medical">
+            <div class="card-header">
+                <span class="phrase-number">30/80</span>
+                <span class="category">Медпомощь</span>
+            </div>
+            <div class="english-phrase">I'm unconscious</div>
+            <div class="russian-phrase">Я без сознания</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card medical">
+            <div class="card-header">
+                <span class="phrase-number">31/80</span>
+                <span class="category">Медпомощь</span>
+            </div>
+            <div class="english-phrase">Someone needs help</div>
+            <div class="russian-phrase">Кому-то нужна помощь</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card medical">
+            <div class="card-header">
+                <span class="phrase-number">32/80</span>
+                <span class="category">Медпомощь</span>
+            </div>
+            <div class="english-phrase">Is there a doctor here?</div>
+            <div class="russian-phrase">Есть ли здесь врач?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card medical">
+            <div class="card-header">
+                <span class="phrase-number">33/80</span>
+                <span class="category">Медпомощь</span>
+            </div>
+            <div class="english-phrase">I need first aid</div>
+            <div class="russian-phrase">Мне нужна первая помощь</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card medical">
+            <div class="card-header">
+                <span class="phrase-number">34/80</span>
+                <span class="category">Медпомощь</span>
+            </div>
+            <div class="english-phrase">I'm allergic to penicillin</div>
+            <div class="russian-phrase">У меня аллергия на пенициллин</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card medical">
+            <div class="card-header">
+                <span class="phrase-number">35/80</span>
+                <span class="category">Медпомощь</span>
+            </div>
+            <div class="english-phrase">It's an emergency</div>
+            <div class="russian-phrase">Это экстренная ситуация</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <!-- БЛОК C: ПОЖАРНАЯ БЕЗОПАСНОСТЬ (36-45) -->
+        <div class="card fire">
+            <div class="card-header">
+                <span class="phrase-number">36/80</span>
+                <span class="category">Пожар</span>
+            </div>
+            <div class="english-phrase">Fire! Fire!</div>
+            <div class="russian-phrase">Пожар! Пожар!</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card fire">
+            <div class="card-header">
+                <span class="phrase-number">37/80</span>
+                <span class="category">Пожар</span>
+            </div>
+            <div class="english-phrase">Call the fire department</div>
+            <div class="russian-phrase">Вызовите пожарную службу</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card fire">
+            <div class="card-header">
+                <span class="phrase-number">38/80</span>
+                <span class="category">Пожар</span>
+            </div>
+            <div class="english-phrase">Where's the fire exit?</div>
+            <div class="russian-phrase">Где пожарный выход?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card fire">
+            <div class="card-header">
+                <span class="phrase-number">39/80</span>
+                <span class="category">Пожар</span>
+            </div>
+            <div class="english-phrase">Where's the fire extinguisher?</div>
+            <div class="russian-phrase">Где огнетушитель?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card fire">
+            <div class="card-header">
+                <span class="phrase-number">40/80</span>
+                <span class="category">Пожар</span>
+            </div>
+            <div class="english-phrase">Everyone get out!</div>
+            <div class="russian-phrase">Всем выйти!</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card fire">
+            <div class="card-header">
+                <span class="phrase-number">41/80</span>
+                <span class="category">Пожар</span>
+            </div>
+            <div class="english-phrase">There's smoke everywhere</div>
+            <div class="russian-phrase">Везде дым</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card fire">
+            <div class="card-header">
+                <span class="phrase-number">42/80</span>
+                <span class="category">Пожар</span>
+            </div>
+            <div class="english-phrase">The building is on fire</div>
+            <div class="russian-phrase">Здание горит</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card fire">
+            <div class="card-header">
+                <span class="phrase-number">43/80</span>
+                <span class="category">Пожар</span>
+            </div>
+            <div class="english-phrase">Is everyone out?</div>
+            <div class="russian-phrase">Все ли вышли?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card fire">
+            <div class="card-header">
+                <span class="phrase-number">44/80</span>
+                <span class="category">Пожар</span>
+            </div>
+            <div class="english-phrase">Don't use the elevator</div>
+            <div class="russian-phrase">Не пользуйтесь лифтом</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card fire">
+            <div class="card-header">
+                <span class="phrase-number">45/80</span>
+                <span class="category">Пожар</span>
+            </div>
+            <div class="english-phrase">Use the stairs</div>
+            <div class="russian-phrase">Используйте лестницу</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <!-- БЛОК D: ПОТЕРЯННЫЕ ВЕЩИ И ЛЮДИ (46-60) -->
+        <div class="card lost">
+            <div class="card-header">
+                <span class="phrase-number">46/80</span>
+                <span class="category">Потери</span>
+            </div>
+            <div class="english-phrase">I'm lost</div>
+            <div class="russian-phrase">Я заблудился</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card lost">
+            <div class="card-header">
+                <span class="phrase-number">47/80</span>
+                <span class="category">Потери</span>
+            </div>
+            <div class="english-phrase">I lost my passport</div>
+            <div class="russian-phrase">Я потерял паспорт</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card lost">
+            <div class="card-header">
+                <span class="phrase-number">48/80</span>
+                <span class="category">Потери</span>
+            </div>
+            <div class="english-phrase">I lost my phone</div>
+            <div class="russian-phrase">Я потерял телефон</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card lost">
+            <div class="card-header">
+                <span class="phrase-number">49/80</span>
+                <span class="category">Потери</span>
+            </div>
+            <div class="english-phrase">I can't find my hotel</div>
+            <div class="russian-phrase">Не могу найти свой отель</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card lost">
+            <div class="card-header">
+                <span class="phrase-number">50/80</span>
+                <span class="category">Потери</span>
+            </div>
+            <div class="english-phrase">I lost my child</div>
+            <div class="russian-phrase">Я потерял ребёнка</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card lost">
+            <div class="card-header">
+                <span class="phrase-number">51/80</span>
+                <span class="category">Потери</span>
+            </div>
+            <div class="english-phrase">Have you seen a little boy?</div>
+            <div class="russian-phrase">Вы видели маленького мальчика?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card lost">
+            <div class="card-header">
+                <span class="phrase-number">52/80</span>
+                <span class="category">Потери</span>
+            </div>
+            <div class="english-phrase">Where is the lost and found?</div>
+            <div class="russian-phrase">Где бюро находок?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card lost">
+            <div class="card-header">
+                <span class="phrase-number">53/80</span>
+                <span class="category">Потери</span>
+            </div>
+            <div class="english-phrase">I left my bag in the taxi</div>
+            <div class="russian-phrase">Я забыл сумку в такси</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card lost">
+            <div class="card-header">
+                <span class="phrase-number">54/80</span>
+                <span class="category">Потери</span>
+            </div>
+            <div class="english-phrase">I dropped my keys</div>
+            <div class="russian-phrase">Я уронил ключи</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card lost">
+            <div class="card-header">
+                <span class="phrase-number">55/80</span>
+                <span class="category">Потери</span>
+            </div>
+            <div class="english-phrase">My luggage is missing</div>
+            <div class="russian-phrase">Мой багаж пропал</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card lost">
+            <div class="card-header">
+                <span class="phrase-number">56/80</span>
+                <span class="category">Потери</span>
+            </div>
+            <div class="english-phrase">I need to report missing items</div>
+            <div class="russian-phrase">Мне нужно сообщить о пропаже</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card lost">
+            <div class="card-header">
+                <span class="phrase-number">57/80</span>
+                <span class="category">Потери</span>
+            </div>
+            <div class="english-phrase">Can you help me find this address?</div>
+            <div class="russian-phrase">Можете помочь найти этот адрес?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card lost">
+            <div class="card-header">
+                <span class="phrase-number">58/80</span>
+                <span class="category">Потери</span>
+            </div>
+            <div class="english-phrase">I don't know where I am</div>
+            <div class="russian-phrase">Я не знаю, где нахожусь</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card lost">
+            <div class="card-header">
+                <span class="phrase-number">59/80</span>
+                <span class="category">Потери</span>
+            </div>
+            <div class="english-phrase">Where am I?</div>
+            <div class="russian-phrase">Где я?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card lost">
+            <div class="card-header">
+                <span class="phrase-number">60/80</span>
+                <span class="category">Потери</span>
+            </div>
+            <div class="english-phrase">What's the name of this street?</div>
+            <div class="russian-phrase">Как называется эта улица?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <!-- БЛОК E: ЛИЧНАЯ БЕЗОПАСНОСТЬ (61-70) -->
+        <div class="card safety">
+            <div class="card-header">
+                <span class="phrase-number">61/80</span>
+                <span class="category">Безопасность</span>
+            </div>
+            <div class="english-phrase">Help me!</div>
+            <div class="russian-phrase">Помогите мне!</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card safety">
+            <div class="card-header">
+                <span class="phrase-number">62/80</span>
+                <span class="category">Безопасность</span>
+            </div>
+            <div class="english-phrase">Stop! Thief!</div>
+            <div class="russian-phrase">Стой! Вор!</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card safety">
+            <div class="card-header">
+                <span class="phrase-number">63/80</span>
+                <span class="category">Безопасность</span>
+            </div>
+            <div class="english-phrase">Leave me alone</div>
+            <div class="russian-phrase">Оставьте меня в покое</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card safety">
+            <div class="card-header">
+                <span class="phrase-number">64/80</span>
+                <span class="category">Безопасность</span>
+            </div>
+            <div class="english-phrase">Go away!</div>
+            <div class="russian-phrase">Уходите!</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card safety">
+            <div class="card-header">
+                <span class="phrase-number">65/80</span>
+                <span class="category">Безопасность</span>
+            </div>
+            <div class="english-phrase">I feel unsafe</div>
+            <div class="russian-phrase">Я чувствую себя небезопасно</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card safety">
+            <div class="card-header">
+                <span class="phrase-number">66/80</span>
+                <span class="category">Безопасность</span>
+            </div>
+            <div class="english-phrase">This area is dangerous</div>
+            <div class="russian-phrase">Этот район опасный</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card safety">
+            <div class="card-header">
+                <span class="phrase-number">67/80</span>
+                <span class="category">Безопасность</span>
+            </div>
+            <div class="english-phrase">I don't feel safe here</div>
+            <div class="russian-phrase">Я не чувствую себя здесь в безопасности</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card safety">
+            <div class="card-header">
+                <span class="phrase-number">68/80</span>
+                <span class="category">Безопасность</span>
+            </div>
+            <div class="english-phrase">Can you walk with me?</div>
+            <div class="russian-phrase">Можете пройти со мной?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card safety">
+            <div class="card-header">
+                <span class="phrase-number">69/80</span>
+                <span class="category">Безопасность</span>
+            </div>
+            <div class="english-phrase">Someone is bothering me</div>
+            <div class="russian-phrase">Кто-то меня беспокоит</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card safety">
+            <div class="card-header">
+                <span class="phrase-number">70/80</span>
+                <span class="category">Безопасность</span>
+            </div>
+            <div class="english-phrase">I need a safe place</div>
+            <div class="russian-phrase">Мне нужно безопасное место</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <!-- БЛОК F: КОНТАКТЫ И ЗАВЕРШЕНИЕ (71-80) -->
+        <div class="card contact">
+            <div class="card-header">
+                <span class="phrase-number">71/80</span>
+                <span class="category">Контакты</span>
+            </div>
+            <div class="english-phrase">What's the emergency number?</div>
+            <div class="russian-phrase">Какой номер экстренных служб?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card contact">
+            <div class="card-header">
+                <span class="phrase-number">72/80</span>
+                <span class="category">Контакты</span>
+            </div>
+            <div class="english-phrase">Can I use your phone?</div>
+            <div class="russian-phrase">Можно воспользоваться телефоном?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card contact">
+            <div class="card-header">
+                <span class="phrase-number">73/80</span>
+                <span class="category">Контакты</span>
+            </div>
+            <div class="english-phrase">Please call my family</div>
+            <div class="russian-phrase">Пожалуйста, позвоните моей семье</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card contact">
+            <div class="card-header">
+                <span class="phrase-number">74/80</span>
+                <span class="category">Контакты</span>
+            </div>
+            <div class="english-phrase">Here's my emergency contact</div>
+            <div class="russian-phrase">Вот контакт для экстренной связи</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card contact">
+            <div class="card-header">
+                <span class="phrase-number">75/80</span>
+                <span class="category">Контакты</span>
+            </div>
+            <div class="english-phrase">I need to contact my insurance</div>
+            <div class="russian-phrase">Мне нужно связаться со страховой</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card contact">
+            <div class="card-header">
+                <span class="phrase-number">76/80</span>
+                <span class="category">Контакты</span>
+            </div>
+            <div class="english-phrase">Thank you for helping me</div>
+            <div class="russian-phrase">Спасибо, что помогли мне</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card contact">
+            <div class="card-header">
+                <span class="phrase-number">77/80</span>
+                <span class="category">Контакты</span>
+            </div>
+            <div class="english-phrase">Everything is okay now</div>
+            <div class="russian-phrase">Теперь всё в порядке</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card contact">
+            <div class="card-header">
+                <span class="phrase-number">78/80</span>
+                <span class="category">Контакты</span>
+            </div>
+            <div class="english-phrase">I feel much better</div>
+            <div class="russian-phrase">Мне намного лучше</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card contact">
+            <div class="card-header">
+                <span class="phrase-number">79/80</span>
+                <span class="category">Контакты</span>
+            </div>
+            <div class="english-phrase">The situation is under control</div>
+            <div class="russian-phrase">Ситуация под контролем</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card contact">
+            <div class="card-header">
+                <span class="phrase-number">80/80</span>
+                <span class="category">Контакты</span>
+            </div>
+            <div class="english-phrase">Crisis averted</div>
+            <div class="russian-phrase">Кризис миновал</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentAudio = null;
+        let currentButton = null;
+
+        function playAudio(button, speed) {
+            // Останавливаем предыдущее аудио
+            if (currentAudio) {
+                currentAudio.pause();
+                if (currentButton) {
+                    currentButton.classList.remove('playing');
+                }
+            }
+
+            const phraseNumber = button.closest('.card')
+                .querySelector('.phrase-number').textContent.split('/')[0];
+            
+            // Создаем путь к аудиофайлу для модуля 9
+            const paddedNumber = phraseNumber.padStart(3, '0');
+            const audioUrl = `./audio/module9/phrase_${paddedNumber}_${speed}.mp3`;
+            
+            // Играем реальное аудио
+            playRealAudio(audioUrl, button);
+        }
+
+        // Функция для реального аудио
+        function playRealAudio(audioUrl, button) {
+            currentAudio = new Audio(audioUrl);
+            currentButton = button;
+            
+            // Индикация загрузки
+            button.classList.add('loading');
+            const originalText = button.textContent;
+            button.textContent = '⏳ Loading...';
+            
+            currentAudio.addEventListener('loadstart', () => {
+                console.log('Начинается загрузка аудио:', audioUrl);
+            });
+            
+            currentAudio.addEventListener('canplay', () => {
+                button.classList.remove('loading');
+                button.classList.add('playing');
+                button.textContent = originalText;
+                currentAudio.play();
+            });
+            
+            currentAudio.addEventListener('ended', () => {
+                button.classList.remove('playing');
+                currentButton = null;
+                currentAudio = null;
+            });
+            
+            currentAudio.addEventListener('error', (e) => {
+                console.error('Ошибка загрузки аудио:', audioUrl, e);
+                button.classList.remove('loading', 'playing');
+                button.textContent = '⌨ Audio N/A';
+                setTimeout(() => {
+                    button.textContent = originalText;
+                }, 2000);
+                currentButton = null;
+                currentAudio = null;
+            });
+        }
+
+        // Функция экспорта в PDF
+        function exportToPDF() {
+            const printButton = document.querySelector('.export-btn');
+            printButton.textContent = '📄 Подготовка к печати...';
+            printButton.disabled = true;
+            
+            setTimeout(() => {
+                window.print();
+                printButton.textContent = '📄 Экспорт в PDF';
+                printButton.disabled = false;
+            }, 500);
+        }
+
+        // Горячие клавиши
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key === 'p') {
+                e.preventDefault();
+                exportToPDF();
+            }
+        });
+    </script>
+</body>
+</html>
+            

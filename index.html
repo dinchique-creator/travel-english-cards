@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Английский для путешествий - Все модули</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 20px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            color: #2980b9;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.3rem;
+            color: #7f8c8d;
+            margin-bottom: 10px;
+        }
+
+        .header .subtitle {
+            font-size: 1.1rem;
+            color: #95a5a6;
+        }
+
+        .instructions {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 40px;
+            border-left: 5px solid #3498db;
+        }
+
+        .instructions h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .instructions p {
+            color: #5d6d7e;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .module-card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border-left: 6px solid;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .module-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        .module-card.available {
+            border-left-color: #27ae60;
+        }
+
+        .module-card.demo {
+            border-left-color: #3498db;
+        }
+
+        .module-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .module-number {
+            background: #3498db;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .module-status {
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-available {
+            background: #d5f4e6;
+            color: #27ae60;
+        }
+
+        .status-demo {
+            background: #e3f2fd;
+            color: #2196f3;
+        }
+
+        .module-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .module-description {
+            color: #7f8c8d;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .module-stats {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .stat {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #5d6d7e;
+            font-size: 0.9rem;
+        }
+
+        .module-action {
+            margin-top: auto;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: #27ae60;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #229954;
+            transform: translateY(-1px);
+        }
+
+        .btn-demo {
+            background: #3498db;
+            color: white;
+        }
+
+        .btn-demo:hover {
+            background: #2980b9;
+            transform: translateY(-1px);
+        }
+
+        .course-info {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .course-info h2 {
+            color: #2980b9;
+            margin-bottom: 15px;
+        }
+
+        .total-stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .total-stat {
+            text-align: center;
+        }
+
+        .total-stat .number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #2980b9;
+            display: block;
+        }
+
+        .total-stat .label {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.2rem;
+            }
+
+            .modules-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .module-card {
+                padding: 20px;
+            }
+
+            .total-stats {
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>✈️ Английский для путешествий</h1>
+            <p>Полный курс практических фраз для уверенного общения за границей</p>
+            <p class="subtitle">26 модулей • 780+ фраз • Все ситуации покрыты</p>
+        </div>
+
+        <div class="instructions">
+            <h3>📋 Как пользоваться материалами</h3>
+            <p>🎧 <strong>Нажимайте кнопки для прослушивания произношения</strong></p>
+            <p>🌱 <strong>Slow</strong> — медленное произношение для изучения</p>
+            <p>⚡ <strong>Natural</strong> — естественная скорость речи</p>
+            <p>📱 <strong>Все материалы работают на телефоне и компьютере</strong></p>
+        </div>
+
+        <div class="modules-grid">
+            <!-- Модуль 1 -->
+            <div class="module-card available" onclick="openModule('module1.html')">
+                <div class="module-header">
+                    <span class="module-number">Модуль 1</span>
+                    <span class="module-status status-available">ДОСТУПЕН</span>
+                </div>
+                <div class="module-title">🛫 Аэропорт и регистрация</div>
+                <div class="module-description">
+                    Регистрация на рейс, багаж, места, проблемы с билетами, задержки рейсов
+                </div>
+                <div class="module-stats">
+                    <div class="stat">📝 <span>30 фраз</span></div>
+                    <div class="stat">🎧 <span>60 аудио</span></div>
+                    <div class="stat">⏱️ <span>15 мин</span></div>
+                </div>
+                <div class="module-action">
+                    <div class="btn btn-primary">Открыть модуль</div>
+                </div>
+            </div>
+
+            <!-- Модуль 2 -->
+            <div class="module-card available" onclick="openModule('module2.html')">
+                <div class="module-header">
+                    <span class="module-number">Модуль 2</span>
+                    <span class="module-status status-available">ДОСТУПЕН</span>
+                </div>
+                <div class="module-title">🛂 Паспортный контроль и таможня</div>
+                <div class="module-description">
+                    Иммиграционные вопросы, таможенная декларация, проблемы с документами
+                </div>
+                <div class="module-stats">
+                    <div class="stat">📝 <span>25 фраз</span></div>
+                    <div class="stat">🎧 <span>50 аудио</span></div>
+                    <div class="stat">⏱️ <span>12 мин</span></div>
+                </div>
+                <div class="module-action">
+                    <div class="btn btn-primary">Открыть модуль</div>
+                </div>
+            </div>
+
+            <!-- Модуль 3 -->
+            <div class="module-card available" onclick="openModule('module3.html')">
+                <div class="module-header">
+                    <span class="module-number">Модуль 3</span>
+                    <span class="module-status status-available">ДОСТУПЕН</span>
+                </div>
+                <div class="module-title">🛡️ Страховка и документы</div>
+                <div class="module-description">
+                    Оформление страховки, утеря документов, восстановление паспорта
+                </div>
+                <div class="module-stats">
+                    <div class="stat">📝 <span>28 фраз</span></div>
+                    <div class="stat">🎧 <span>56 аудио</span></div>
+                    <div class="stat">⏱️ <span>14 мин</span></div>
+                </div>
+                <div class="module-action">
+                    <div class="btn btn-primary">Открыть модуль</div>
+                </div>
+            </div>
+
+            <!-- Модуль 4 -->
+            <div class="module-card available" onclick="openModule('module4.html')">
+                <div class="module-header">
+                    <span class="module-number">Модуль 4</span>
+                    <span class="module-status status-available">ДОСТУПЕН</span>
+                </div>
+                <div class="module-title">💱 Валюта и обмен денег</div>
+                <div class="module-description">
+                    Обмен валют, банкоматы, курсы валют, комиссии, проблемы с картами
+                </div>
+                <div class="module-stats">
+                    <div class="stat">📝 <span>32 фразы</span></div>
+                    <div class="stat">🎧 <span>64 аудио</span></div>
+                    <div class="stat">⏱️ <span>16 мин</span></div>
+                </div>
+                <div class="module-action">
+                    <div class="btn btn-primary">Открыть модуль</div>
+                </div>
+            </div>
+
+            <!-- Модуль 5 -->
+            <div class="module-card available" onclick="openModule('module5.html')">
+                <div class="module-header">
+                    <span class="module-number">Модуль 5</span>
+                    <span class="module-status status-available">ДОСТУПЕН</span>
+                </div>
+                <div class="module-title">🏨 Отель и размещение</div>
+                <div class="module-description">
+                    Check-in, проблемы с номером, услуги отеля, бронирование
+                </div>
+                <div class="module-stats">
+                    <div class="stat">📝 <span>35 фраз</span></div>
+                    <div class="stat">🎧 <span>70 аудио</span></div>
+                    <div class="stat">⏱️ <span>18 мин</span></div>
+                </div>
+                <div class="module-action">
+                    <div class="btn btn-primary">Открыть модуль</div>
+                </div>
+            </div>
+
+            <!-- Модуль 6 -->
+            <div class="module-card available" onclick="openModule('module6.html')">
+                <div class="module-header">
+                    <span class="module-number">Модуль 6</span>
+                    <span class="module-status status-available">ДОСТУПЕН</span>
+                </div>
+                <div class="module-title">🚗 Транспорт и ориентирование</div>
+                <div class="module-description">
+                    Такси, аренда авто, навигация по городу, спросить дорогу
+                </div>
+                <div class="module-stats">
+                    <div class="stat">📝 <span>33 фразы</span></div>
+                    <div class="stat">🎧 <span>66 аудио</span></div>
+                    <div class="stat">⏱️ <span>17 мин</span></div>
+                </div>
+                <div class="module-action">
+                    <div class="btn btn-primary">Открыть модуль</div>
+                </div>
+            </div>
+
+            <!-- Модуль 7 -->
+            <div class="module-card available" onclick="openModule('module7.html')">
+                <div class="module-header">
+                    <span class="module-number">Модуль 7</span>
+                    <span class="module-status status-available">ДОСТУПЕН</span>
+                </div>
+                <div class="module-title">🚌 Общественный транспорт</div>
+                <div class="module-description">
+                    Автобусы, метро, поезда, билеты, расписание, маршруты
+                </div>
+                <div class="module-stats">
+                    <div class="stat">📝 <span>29 фраз</span></div>
+                    <div class="stat">🎧 <span>58 аудио</span></div>
+                    <div class="stat">⏱️ <span>15 мин</span></div>
+                </div>
+                <div class="module-action">
+                    <div class="btn btn-primary">Открыть модуль</div>
+                </div>
+            </div>
+
+            <!-- Модуль 8 -->
+            <div class="module-card available" onclick="openModule('module8.html')">
+                <div class="module-header">
+                    <span class="module-number">Модуль 8</span>
+                    <span class="module-status status-available">ДОСТУПЕН</span>
+                </div>
+                <div class="module-title">🍽️ Еда и рестораны</div>
+                <div class="module-description">
+                    Заказ еды, диетические ограничения, счет и чаевые, жалобы
+                </div>
+                <div class="module-stats">
+                    <div class="stat">📝 <span>40 фраз</span></div>
+                    <div class="stat">🎧 <span>80 аудио</span></div>
+                    <div class="stat">⏱️ <span>20 мин</span></div>
+                </div>
+                <div class="module-action">
+                    <div class="btn btn-primary">Открыть модуль</div>
+                </div>
+            </div>
+
+            <!-- Модуль 9 -->
+            <div class="module-card available" onclick="openModule('module9.html')">
+                <div class="module-header">
+                    <span class="module-number">Модуль 9</span>
+                    <span class="module-status status-available">ДОСТУПЕН</span>
+                </div>
+                <div class="module-title">🚨 Экстренные ситуации</div>
+                <div class="module-description">
+                    Помощь полиции, скорая помощь, пожарная служба, утеря вещей
+                </div>
+                <div class="module-stats">
+                    <div class="stat">📝 <span>26 фраз</span></div>
+                    <div class="stat">🎧 <span>52 аудио</span></div>
+                    <div class="stat">⏱️ <span>13 мин</span></div>
+                </div>
+                <div class="module-action">
+                    <div class="btn btn-primary">Открыть модуль</div>
+                </div>
+            </div>
+
+            <!-- Модуль 10 -->
+            <div class="module-card available" onclick="openModule('module10.html')">
+                <div class="module-header">
+                    <span class="module-number">Модуль 10</span>
+                    <span class="module-status status-available">ДОСТУПЕН</span>
+                </div>
+                <div class="module-title">💳 Цифровые платежи и технологии</div>
+                <div class="module-description">
+                    Мобильные платежи, бесконтактная оплата, проблемы с технологиями
+                </div>
+                <div class="module-stats">
+                    <div class="stat">📝 <span>24 фразы</span></div>
+                    <div class="stat">🎧 <span>48 аудио</span></div>
+                    <div class="stat">⏱️ <span>12 мин</span></div>
+                </div>
+                <div class="module-action">
+                    <div class="btn btn-primary">Открыть модуль</div>
+                </div>
+            </div>
+
+            <!-- Модуль 11 -->
+            <div class="module-card available" onclick="openModule('module11.html')">
+                <div class="module-header">
+                    <span class="module-number">Модуль 11</span>
+                    <span class="module-status status-available">ДОСТУПЕН</span>
+                </div>
+                <div class="module-title">📱 Мобильная связь</div>
+                <div class="module-description">
+                    SIM-карты, роуминг, интернет, тарифы, пополнение счета
+                </div>
+                <div class="module-stats">
+                    <div class="stat">📝 <span>27 фраз</span></div>
+                    <div class="stat">🎧 <span>54 аудио</span></div>
+                    <div class="stat">⏱️ <span>14 мин</span></div>
+                </div>
+                <div class="module-action">
+                    <div class="btn btn-primary">Открыть модуль</div>
+                </div>
+            </div>
+
+            <!-- Модуль 12 -->
+            <div class="module-card available" onclick="openModule('module12.html')">
+                <div class="module-header">
+                    <span class="module-number">Модуль 12</span>
+                    <span class="module-status status-available">ДОСТУПЕН</span>
+                </div>
+                <div class="module-title">🏥 Медицинское обслуживание</div>
+                <div class="module-description">
+                    Врач, аптека, симптомы, лекарства, страховка, неотложная помощь
+                </div>
+                <div class="module-stats">
+                    <div class="stat">📝 <span>38 фраз</span></div>
+                    <div class="stat">🎧 <span>76 аудио</span></div>
+                    <div class="stat">⏱️ <span>19 мин</span></div>
+                </div>
+                <div class="module-action">
+                    <div class="btn btn-primary">Открыть модуль</div>
+                </div>
+            </div>
+
+            <!-- Модуль 13 -->
+            <div class="module-card available" onclick="openModule('module13.html')">
+                <div class="module-header">
+                    <span class="module-number">Модуль 13</span>
+                    <span class="module-status status-available">ДОСТУПЕН</span>
+                </div>
+                <div class="module-title">🛍️ Покупки и торговля</div>
+                <div class="module-description">
+                    Магазины, торговля, скидки, возврат товаров, местные рынки
+                </div>
+                <div class="module-stats">
+                    <div class="stat">📝 <span>32 фразы</span></div>
+                    <div class="stat">🎧 <span>64 аудио</span></div>
+                    <div class="stat">⏱️ <span>16 мин</span></div>
+                </div>
+                <div class="module-action">
+                    <div class="btn btn-primary">Открыть модуль</div>
+                </div>
+            </div>
+
+            <!-- Модуль 14 -->
+            <div class="module-card available" onclick="openModule('module14.html')">
+                <div class="module-header">
+                    <span class="module-number">Модуль 14</span>
+                    <span class="module-status status-available">ДОСТУПЕН</span>
+                </div>
+                <div class="module-title">📅 Бронирование и отмена</div>
+                <div class="module-description">
+                    Бронирование столиков, билетов, экскурсий, отмена и изменения
+                </div>
+                <div class="module-stats">
+                    <div class="stat">📝 <span>30 фраз</span></div>
+                    <div class="stat">🎧 <span>60 аудио</span></div>
+                    <div class="stat">⏱️ <span>15 мин</span></div>
+                </div>
+                <div class="module-action">
+                    <div class="btn btn-primary">Открыть модуль</div>
+                </div>
+            </div>
+
+            <!-- Модуль 15 -->
+            <div class="module-card available" onclick="openModule('module15.html')">
+                <div class="module-header">
+                    <span class="module-number">Модуль 15</span>
+                    <span class="module-status status-available">ДОСТУПЕН</span>
+                </div>
+                <div class="module-title">🏠 Жилье и аренда</div>
+                <div class="module-description">
+                    Аренда квартир, Airbnb, хостелы, долгосрочное проживание
+                </div>
+                <div class="module-stats">
+                    <div class="stat">📝 <span>31 фраза</span></div>
+                    <div class="stat">🎧 <span>62 аудио</span></div>
+                    <div class="stat">⏱️ <span>16 мин</span></div>
+                </div>
+                <div class="module-action">
+                    <div class="btn btn-primary">Открыть модуль</div>
+                </div>
+            </div>
+
+            <!-- Модуль 16 -->
+            <div class="module-card available" onclick="openModule('module16.html')">
+                <div class="module-header">
+                    <span class="module-number">Модуль 16</span>
+                    <span class="module-status status-available">ДОСТУПЕН</span>
+                </div>
+                <div class="module-title">🏍️ Прокат автомобилей и мотоциклов</div>
+                <div class="module-description">
+                    Аренда транспорта, страховка, условия проката, возврат
+                </div>
+                <div class="module-stats">
+                    <div class="stat">📝 <span>28 фраз</span></div>
+                    <div class="stat">🎧 <span>56 аудио</span></div>
+                    <div class="stat">⏱️ <span>14 мин</span></div>
+                </div>
+                <div class="module-action">
+                    <div class="btn btn-primary">Открыть модуль</div>
+                </div>
+            </div>
+
+            <!-- Модуль 17 -->
+            <div class="module-card available" onclick="openModule('module17.html')">
+                <div class="module-header">
+                    <span class="module-number">Модуль 17</span>
+                    <span class="module-status status-available">ДОСТУПЕН</span>
+                </div>
+                <div class="module-title">📲 Онлайн-сервисы и приложения</div>
+                <div class="module-description">
+                    Uber, доставка еды, бронирование через приложения, техподдержка
+                </div>
+                <div class="module-stats">
+                    <div class="stat">📝 <span>25 фраз</span></div>
+                    <div class="stat">🎧 <span>50 аудио</span></div>
+                    <div class="stat">⏱️ <span>13 мин</span></div>
+                </div>
+                <div class="module-action">
+                    <div class="btn btn-primary">Открыть модуль</div>
+                </div>
+            </div>
+
+            <!-- Модуль 18 -->
+            <div class="module-card available" onclick="openModule('module18.html')">
+                <div class="module-header">
+                    <span class="module-number">Модуль 18</span>
+                    <span class="module-status status-available">ДОСТУПЕН</span>
+                </div>
+                <div class="module-title">👶 Путешествия с детьми</div>
+                <div class="module-description">
+                    Детские кроватки, питание, развлечения, медицина для детей
+                </div>
+                <div class="module-stats">
+                    <div class="stat">📝 <span>34 фразы</span></div>
+                    <div class="stat">🎧 <span>68 аудио</span></div>
+                    <div class="stat">⏱️ <span>17 мин</span></div>
+                </div>
+                <div class="module-action">
+                    <div class="btn btn-primary">Открыть модуль</div>
+                </div>
+            </div>
+
+            <!-- Модуль 19 -->
+            <div class="module-card available" onclick="openModule('module19.html')">
+                <div class="module-header">
+                    <span class="module-number">Модуль 19</span>
+                    <span class="module-status status-available">ДОСТУПЕН</span>
+                </div>
+                <div class="module-title">🔒 Семейная безопасность</div>
+                <div class="module-description">
+                    Безопасность детей, потеря ребенка, контакты экстренных служб
+                </div>
+                <div class="module-stats">
+                    <div class="stat">📝 <span>22 фразы</span></div>
+                    <div class="stat">🎧 <span>44 аудио</span></div>
+                    <div class="stat">⏱️ <span>11 мин</span></div>
+                </div>
+                <div class="module-action">
+                    <div class="btn btn-primary">Открыть модуль</div>
+                </div>
+            </div>
+
+            <!-- Модуль 20 -->
+            <div class="module-card available" onclick="openModule('module20.html')">
+                <div class="module-header">
+                    <span class="module-number">Модуль 20</span>
+                    <span class="module-status status-available">ДОСТУПЕН</span>
+                </div>
+                <div class="module-title">👨‍👩‍👧‍👦 Семейное размещение</div>
+                <div class="module-description">
+                    Семейные номера, смежные комнаты, дополнительные кровати
+                </div>
+                <div class="module-stats">
+                    <div class="stat">📝 <span>26 фраз</span></div>
+                    <div class="stat">🎧 <span>52 аудио</span></div>
+                    <div class="stat">⏱️ <span>13 мин</span></div>
+                </div>
+                <div class="module-action">
+                    <div class="btn btn-primary">Открыть модуль</div>
+                </div>
+            </div>
+
+            <!-- Модуль 21 -->
+            <div class="module-card available" onclick="openModule('module21.html')">
+                <div class="module-header">
+                    <span class="module-number">Модуль 21</span>
+                    <span class="module-status status-available">ДОСТУПЕН</span>
+                </div>
+                <div class="module-title">🎪 Развлечения и досуг</div>
+                <div class="module-description">
+                    Парки развлечений, музеи, театры, концерты, билеты на мероприятия
+                </div>
+                <div class="module-stats">
+                    <div class="stat">📝 <span>29 фраз</span></div>
+                    <div class="stat">🎧 <span>58 аудио</span></div>
+                    <div class="stat">⏱️ <span>15 мин</span></div>
+                </div>
+                <div class="module-action">
+                    <div class="btn btn-primary">Открыть модуль</div>
+                </div>
+            </div>
+
+            <!-- Модуль 22 -->
+            <div class="module-card available" onclick="openModule('module22.html')">
+                <div class="module-header">
+                    <span class="module-number">Модуль 22</span>
+                    <span class="module-status status-available">ДОСТУПЕН</span>
+                </div>
+                <div class="module-title">🗺️ Экскурсии и гиды</div>
+                <div class="module-description">
+                    Заказ экскурсий, групповые туры, частные гиды, отмена экскурсий
+                </div>
+                <div class="module-stats">
+                    <div class="stat">📝 <span>31 фраза</span></div>
+                    <div class="stat">🎧 <span>62 аудио</span></div>
+                    <div class="stat">⏱️ <span>16 мин</span></div>
+                </div>
+                <div class="module-action">
+                    <div class="btn btn-primary">Открыть модуль</div>
+                </div>
+            </div>
+
+            <!-- Модуль 23 -->
+            <div class="module-card available" onclick="openModule('module23.html')">
+                <div class="module-header">
+                    <span class="module-number">Модуль 23</span>
+                    <span class="module-status status-available">ДОСТУПЕН</span>
+                </div>
+                <div class="module-title">🎭 Культурные мероприятия</div>
+                <div class="module-description">
+                    Фестивали, выставки, культурные события, билеты, программы
+                </div>
+                <div class="module-stats">
+                    <div class="stat">📝 <span>27 фраз</span></div>
+                    <div class="stat">🎧 <span>54 аудио</span></div>
+                    <div class="stat">⏱️ <span>14 мин</span></div>
+                </div>
+                <div class="module-action">
+                    <div class="btn btn-primary">Открыть модуль</div>
+                </div>
+            </div>
+
+            <!-- Модуль 24 -->
+            <div class="module-card available" onclick="openModule('module24.html')">
+                <div class="module-header">
+                    <span class="module-number">Модуль 24</span>
+                    <span class="module-status status-available">ДОСТУПЕН</span>
+                </div>
+                <div class="module-title">🏃‍♂️ Спорт и активности</div>
+                <div class="module-description">
+                    Спортзалы, бассейны, аренда спортивного инвентаря, тренировки
+                </div>
+                <div class="module-stats">
+                    <div class="stat">📝 <span>33 фразы</span></div>
+                    <div class="stat">🎧 <span>66 аудио</span></div>
+                    <div class="stat">⏱️ <span>17 мин</span></div>
+                </div>
+                <div class="module-action">
+                    <div class="btn btn-primary">Открыть модуль</div>
+                </div>
+            </div>
+
+            <!-- Модуль 25 -->
+            <div class="module-card available" onclick="openModule('module25.html')">
+                <div class="module-header">
+                    <span class="module-number">Модуль 25</span>
+                    <span class="module-status status-available">ДОСТУПЕН</span>
+                </div>
+                <div class="module-title">🌙 Ночная жизнь</div>
+                <div class="module-description">
+                    Бары, клубы, заказ напитков, столики, дресс-код, безопасность
+                </div>
+                <div class="module-stats">
+                    <div class="stat">📝 <span>28 фраз</span></div>
+                    <div class="stat">🎧 <span>56 аудио</span></div>
+                    <div class="stat">⏱️ <span>14 мин</span></div>
+                </div>
+                <div class="module-action">
+                    <div class="btn btn-primary">Открыть модуль</div>
+                </div>
+            </div>
+
+            <!-- Модуль 26 -->
+            <div class="module-card available" onclick="openModule('module26.html')">
+                <div class="module-header">
+                    <span class="module-number">Модуль 26</span>
+                    <span class="module-status status-available">ДОСТУПЕН</span>
+                </div>
+                <div class="module-title">🎁 Сувениры и подарки</div>
+                <div class="module-description">
+                    Покупка сувениров, местные изделия, упаковка подарков, доставка
+                </div>
+                <div class="module-stats">
+                    <div class="stat">📝 <span>25 фраз</span></div>
+                    <div class="stat">🎧 <span>50 аудио</span></div>
+                    <div class="stat">⏱️ <span>13 мин</span></div>
+                </div>
+                <div class="module-action">
+                    <div class="btn btn-primary">Открыть модуль</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="course-info">
+            <h2>📊 Статистика всего курса</h2>
+            <div class="total-stats">
+                <div class="total-stat">
+                    <span class="number">26</span>
+                    <span class="label">Модулей</span>
+                </div>
+                <div class="total-stat">
+                    <span class="number">780+</span>
+                    <span class="label">Фраз</span>
+                </div>
+                <div class="total-stat">
+                    <span class="number">1560+</span>
+                    <span class="label">Аудио</span>
+                </div>
+                <div class="total-stat">
+                    <span class="number">6.5+</span>
+                    <span class="label">Часов контента</span>
+                </div>
+            </div>
+            <p style="color: #7f8c8d; margin-top: 20px;">
+                Полный курс покрывает все ситуации, с которыми можно столкнуться в путешествии или при переезде за границу
+            </p>
+        </div>
+    </div>
+
+    <script>
+        function openModule(moduleFile) {
+            // Все модули теперь доступны
+            window.location.href = moduleFile;
+        }
+
+        // Добавляем интерактивность для всех модулей
+        document.addEventListener('DOMContentLoaded', function() {
+            const moduleCards = document.querySelectorAll('.module-card');
+            
+            moduleCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.cursor = 'pointer';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Английский для путешествий: Модуль 18 - Путешествия с детьми</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8f9fa;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .back-link:hover {
+            color: #2980b9;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+
+        .header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 8px;
+            color: #2980b9;
+            font-weight: 600;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            color: #7f8c8d;
+            margin-bottom: 8px;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .export-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .export-btn:hover {
+            background: #c0392b;
+            transform: translateY(-1px);
+        }
+
+        .instructions {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border-left: 4px solid #3498db;
+            text-align: center;
+        }
+
+        .instructions h3 {
+            color: #2c3e50;
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+        }
+
+        .instructions p {
+            color: #5d6d7e;
+            margin-bottom: 6px;
+            font-size: 0.95rem;
+        }
+
+        .instructions .highlight {
+            background: #f8f9fa;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border-left: 4px solid;
+            transition: box-shadow 0.2s ease;
+            position: relative;
+        }
+
+        .card:hover {
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .phrase-number {
+            background: #3498db;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 16px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .category {
+            background: #ecf0f1;
+            color: #34495e;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        .english-phrase {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+
+        .russian-phrase {
+            font-size: 1rem;
+            color: #7f8c8d;
+            margin-bottom: 16px;
+            font-style: italic;
+        }
+
+        .audio-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .audio-btn {
+            background: #27ae60;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .audio-btn:hover {
+            background: #229954;
+            transform: translateY(-1px);
+        }
+
+        .audio-btn:active {
+            transform: translateY(0);
+        }
+
+        .audio-btn.playing {
+            background: #f39c12;
+            animation: pulse 2s infinite;
+        }
+
+        .audio-btn.loading {
+            background: #95a5a6;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(243, 156, 18, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(243, 156, 18, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(243, 156, 18, 0); }
+        }
+
+        /* Цветовое кодирование разделов */
+        .travel-needs { border-left-color: #3498db; }
+        .activities { border-left-color: #e74c3c; }
+        .care { border-left-color: #f39c12; }
+        .safety { border-left-color: #27ae60; }
+        .entertainment { border-left-color: #9b59b6; }
+        .emergencies { border-left-color: #e67e22; }
+
+        .travel-needs .category { background: #ebf3fd; color: #3498db; }
+        .activities .category { background: #fdebeb; color: #e74c3c; }
+        .care .category { background: #fdf6eb; color: #f39c12; }
+        .safety .category { background: #eafaf1; color: #27ae60; }
+        .entertainment .category { background: #f4ecf7; color: #9b59b6; }
+        .emergencies .category { background: #fdf2e9; color: #e67e22; }
+
+        /* PDF стили */
+        @media print {
+            body { 
+                background: white; 
+                padding: 10px;
+                font-size: 12px;
+            }
+            .back-link, .controls, .instructions { display: none; }
+            .cards-container { 
+                grid-template-columns: repeat(2, 1fr); 
+                gap: 10px;
+                max-width: none;
+            }
+            .card { 
+                break-inside: avoid; 
+                margin-bottom: 10px;
+                padding: 15px;
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+            .audio-buttons { display: none; }
+            .english-phrase { font-size: 1.1rem; }
+            .russian-phrase { font-size: 0.9rem; }
+        }
+
+        @media (max-width: 768px) {
+            .cards-container {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+            
+            .card {
+                padding: 16px;
+            }
+            
+            .english-phrase {
+                font-size: 1.2rem;
+            }
+            
+            .audio-buttons {
+                justify-content: center;
+            }
+
+            .controls {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-link">← Вернуться ко всем модулям</a>
+
+    <div class="header">
+        <h1>👶 Английский для путешествий</h1>
+        <p>Модуль 18: Путешествия с детьми — 72 практические фразы</p>
+    </div>
+
+    <div class="controls">
+        <button class="export-btn" onclick="exportToPDF()">📄 Экспорт в PDF</button>
+    </div>
+
+    <div class="instructions">
+        <h3>📋 Нажимайте кнопки для прослушивания произношения</h3>
+        <p>🌱 <span class="highlight">Slow</span> — медленное произношение • ⚡ <span class="highlight">Natural</span> — естественная скорость</p>
+    </div>
+
+    <div class="cards-container">
+        <!-- БЛОК A: ПУТЕШЕСТВИЕ С ДЕТЬМИ - ОСНОВЫ (1-15) -->
+        <div class="card travel-needs">
+            <div class="card-header">
+                <span class="phrase-number">1/72</span>
+                <span class="category">Размещение</span>
+            </div>
+            <div class="english-phrase">I'm traveling with a child</div>
+            <div class="russian-phrase">Я путешествую с ребенком</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card travel-needs">
+            <div class="card-header">
+                <span class="phrase-number">2/72</span>
+                <span class="category">Размещение</span>
+            </div>
+            <div class="english-phrase">Do you have family rooms?</div>
+            <div class="russian-phrase">У вас есть семейные номера?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card travel-needs">
+            <div class="card-header">
+                <span class="phrase-number">3/72</span>
+                <span class="category">Размещение</span>
+            </div>
+            <div class="english-phrase">Can we get a crib in the room?</div>
+            <div class="russian-phrase">Можно кроватку в номер?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card travel-needs">
+            <div class="card-header">
+                <span class="phrase-number">4/72</span>
+                <span class="category">Размещение</span>
+            </div>
+            <div class="english-phrase">We need connecting rooms</div>
+            <div class="russian-phrase">Нам нужны смежные номера</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card travel-needs">
+            <div class="card-header">
+                <span class="phrase-number">5/72</span>
+                <span class="category">Размещение</span>
+            </div>
+            <div class="english-phrase">Is there a kids' club here?</div>
+            <div class="russian-phrase">Здесь есть детский клуб?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card travel-needs">
+            <div class="card-header">
+                <span class="phrase-number">6/72</span>
+                <span class="category">Транспорт</span>
+            </div>
+            <div class="english-phrase">Do you have car seats?</div>
+            <div class="russian-phrase">У вас есть детские кресла?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card travel-needs">
+            <div class="card-header">
+                <span class="phrase-number">7/72</span>
+                <span class="category">Транспорт</span>
+            </div>
+            <div class="english-phrase">I need a baby car seat</div>
+            <div class="russian-phrase">Мне нужно детское автокресло</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card travel-needs">
+            <div class="card-header">
+                <span class="phrase-number">8/72</span>
+                <span class="category">Транспорт</span>
+            </div>
+            <div class="english-phrase">Can you install the car seat?</div>
+            <div class="russian-phrase">Можете установить автокресло?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card travel-needs">
+            <div class="card-header">
+                <span class="phrase-number">9/72</span>
+                <span class="category">Транспорт</span>
+            </div>
+            <div class="english-phrase">Do children get a discount?</div>
+            <div class="russian-phrase">Детям есть скидка?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card travel-needs">
+            <div class="card-header">
+                <span class="phrase-number">10/72</span>
+                <span class="category">Транспорт</span>
+            </div>
+            <div class="english-phrase">How much for a child ticket?</div>
+            <div class="russian-phrase">Сколько стоит детский билет?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card travel-needs">
+            <div class="card-header">
+                <span class="phrase-number">11/72</span>
+                <span class="category">Питание</span>
+            </div>
+            <div class="english-phrase">Do you have a children's menu?</div>
+            <div class="russian-phrase">У вас есть детское меню?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card travel-needs">
+            <div class="card-header">
+                <span class="phrase-number">12/72</span>
+                <span class="category">Питание</span>
+            </div>
+            <div class="english-phrase">Can you make this less spicy?</div>
+            <div class="russian-phrase">Можете сделать менее острым?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card travel-needs">
+            <div class="card-header">
+                <span class="phrase-number">13/72</span>
+                <span class="category">Питание</span>
+            </div>
+            <div class="english-phrase">Do you have high chairs?</div>
+            <div class="russian-phrase">У вас есть детские стульчики?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card travel-needs">
+            <div class="card-header">
+                <span class="phrase-number">14/72</span>
+                <span class="category">Питание</span>
+            </div>
+            <div class="english-phrase">Can we warm up this bottle?</div>
+            <div class="russian-phrase">Можно подогреть эту бутылочку?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card travel-needs">
+            <div class="card-header">
+                <span class="phrase-number">15/72</span>
+                <span class="category">Питание</span>
+            </div>
+            <div class="english-phrase">Do you have formula or baby food?</div>
+            <div class="russian-phrase">У вас есть смесь или детское питание?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <!-- БЛОК B: РАЗВЛЕЧЕНИЯ И АКТИВНОСТИ (16-30) -->
+        <div class="card activities">
+            <div class="card-header">
+                <span class="phrase-number">16/72</span>
+                <span class="category">Развлечения</span>
+            </div>
+            <div class="english-phrase">What activities do you have for kids?</div>
+            <div class="russian-phrase">Какие у вас есть занятия для детей?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card activities">
+            <div class="card-header">
+                <span class="phrase-number">17/72</span>
+                <span class="category">Развлечения</span>
+            </div>
+            <div class="english-phrase">Is there a playground nearby?</div>
+            <div class="russian-phrase">Поблизости есть детская площадка?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card activities">
+            <div class="card-header">
+                <span class="phrase-number">18/72</span>
+                <span class="category">Развлечения</span>
+            </div>
+            <div class="english-phrase">Do you have board games or toys?</div>
+            <div class="russian-phrase">У вас есть настольные игры или игрушки?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card activities">
+            <div class="card-header">
+                <span class="phrase-number">19/72</span>
+                <span class="category">Развлечения</span>
+            </div>
+            <div class="english-phrase">Can children swim in the pool?</div>
+            <div class="russian-phrase">Дети могут плавать в бассейне?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card activities">
+            <div class="card-header">
+                <span class="phrase-number">20/72</span>
+                <span class="category">Развлечения</span>
+            </div>
+            <div class="english-phrase">Is there a kids' pool?</div>
+            <div class="russian-phrase">Есть детский бассейн?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card activities">
+            <div class="card-header">
+                <span class="phrase-number">21/72</span>
+                <span class="category">Аттракционы</span>
+            </div>
+            <div class="english-phrase">What's the minimum age for this ride?</div>
+            <div class="russian-phrase">Какой минимальный возраст для этого аттракциона?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card activities">
+            <div class="card-header">
+                <span class="phrase-number">22/72</span>
+                <span class="category">Аттракционы</span>
+            </div>
+            <div class="english-phrase">Is this safe for small children?</div>
+            <div class="russian-phrase">Это безопасно для маленьких детей?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card activities">
+            <div class="card-header">
+                <span class="phrase-number">23/72</span>
+                <span class="category">Аттракционы</span>
+            </div>
+            <div class="english-phrase">Can I ride with my child?</div>
+            <div class="russian-phrase">Можно кататься вместе с ребенком?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card activities">
+            <div class="card-header">
+                <span class="phrase-number">24/72</span>
+                <span class="category">Музеи</span>
+            </div>
+            <div class="english-phrase">Do you have guided tours for families?</div>
+            <div class="russian-phrase">У вас есть экскурсии для семей?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card activities">
+            <div class="card-header">
+                <span class="phrase-number">25/72</span>
+                <span class="category">Музеи</span>
+            </div>
+            <div class="english-phrase">Can we touch the exhibits?</div>
+            <div class="russian-phrase">Можно трогать экспонаты?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card activities">
+            <div class="card-header">
+                <span class="phrase-number">26/72</span>
+                <span class="category">Музеи</span>
+            </div>
+            <div class="english-phrase">Do you have interactive displays?</div>
+            <div class="russian-phrase">У вас есть интерактивные экспонаты?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card activities">
+            <div class="card-header">
+                <span class="phrase-number">27/72</span>
+                <span class="category">Пляж</span>
+            </div>
+            <div class="english-phrase">Is the beach child-friendly?</div>
+            <div class="russian-phrase">Пляж подходит для детей?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card activities">
+            <div class="card-header">
+                <span class="phrase-number">28/72</span>
+                <span class="category">Пляж</span>
+            </div>
+            <div class="english-phrase">Are there any dangerous currents?</div>
+            <div class="russian-phrase">Здесь есть опасные течения?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card activities">
+            <div class="card-header">
+                <span class="phrase-number">29/72</span>
+                <span class="category">Пляж</span>
+            </div>
+            <div class="english-phrase">Can we rent beach toys?</div>
+            <div class="russian-phrase">Можно арендовать пляжные игрушки?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card activities">
+            <div class="card-header">
+                <span class="phrase-number">30/72</span>
+                <span class="category">Пляж</span>
+            </div>
+            <div class="english-phrase">Is there a lifeguard on duty?</div>
+            <div class="russian-phrase">Дежурит ли спасатель?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <!-- БЛОК C: УХОД ЗА ДЕТЬМИ (31-45) -->
+        <div class="card care">
+            <div class="card-header">
+                <span class="phrase-number">31/72</span>
+                <span class="category">Подгузники</span>
+            </div>
+            <div class="english-phrase">Where can I buy diapers?</div>
+            <div class="russian-phrase">Где можно купить подгузники?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card care">
+            <div class="card-header">
+                <span class="phrase-number">32/72</span>
+                <span class="category">Подгузники</span>
+            </div>
+            <div class="english-phrase">Is there a baby changing room?</div>
+            <div class="russian-phrase">Здесь есть комната для пеленания?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card care">
+            <div class="card-header">
+                <span class="phrase-number">33/72</span>
+                <span class="category">Подгузники</span>
+            </div>
+            <div class="english-phrase">Where can I change my baby?</div>
+            <div class="russian-phrase">Где можно переодеть малыша?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card care">
+            <div class="card-header">
+                <span class="phrase-number">34/72</span>
+                <span class="category">Подгузники</span>
+            </div>
+            <div class="english-phrase">Do you have baby wipes?</div>
+            <div class="russian-phrase">У вас есть детские салфетки?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card care">
+            <div class="card-header">
+                <span class="phrase-number">35/72</span>
+                <span class="category">Кормление</span>
+            </div>
+            <div class="english-phrase">Is there a place to breastfeed?</div>
+            <div class="russian-phrase">Есть место для кормления грудью?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card care">
+            <div class="card-header">
+                <span class="phrase-number">36/72</span>
+                <span class="category">Кормление</span>
+            </div>
+            <div class="english-phrase">Can you heat this baby food?</div>
+            <div class="russian-phrase">Можете подогреть детское питание?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card care">
+            <div class="card-header">
+                <span class="phrase-number">37/72</span>
+                <span class="category">Кормление</span>
+            </div>
+            <div class="english-phrase">Do you have a microwave I can use?</div>
+            <div class="russian-phrase">Можно воспользоваться микроволновкой?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card care">
+            <div class="card-header">
+                <span class="phrase-number">38/72</span>
+                <span class="category">Кормление</span>
+            </div>
+            <div class="english-phrase">My child has food allergies</div>
+            <div class="russian-phrase">У моего ребенка пищевая аллергия</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card care">
+            <div class="card-header">
+                <span class="phrase-number">39/72</span>
+                <span class="category">Сон</span>
+            </div>
+            <div class="english-phrase">Can we get extra pillows?</div>
+            <div class="russian-phrase">Можно дополнительные подушки?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card care">
+            <div class="card-header">
+                <span class="phrase-number">40/72</span>
+                <span class="category">Сон</span>
+            </div>
+            <div class="english-phrase">The room is too noisy for the baby</div>
+            <div class="russian-phrase">В номере слишком шумно для малыша</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card care">
+            <div class="card-header">
+                <span class="phrase-number">41/72</span>
+                <span class="category">Сон</span>
+            </div>
+            <div class="english-phrase">Can you provide blackout curtains?</div>
+            <div class="russian-phrase">Можете предоставить затемняющие шторы?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card care">
+            <div class="card-header">
+                <span class="phrase-number">42/72</span>
+                <span class="category">Коляски</span>
+            </div>
+            <div class="english-phrase">Can I bring the stroller inside?</div>
+            <div class="russian-phrase">Можно внести коляску?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card care">
+            <div class="card-header">
+                <span class="phrase-number">43/72</span>
+                <span class="category">Коляски</span>
+            </div>
+            <div class="english-phrase">Where can I park the stroller?</div>
+            <div class="russian-phrase">Где можно оставить коляску?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card care">
+            <div class="card-header">
+                <span class="phrase-number">44/72</span>
+                <span class="category">Коляски</span>
+            </div>
+            <div class="english-phrase">Do you have stroller rentals?</div>
+            <div class="russian-phrase">У вас есть прокат колясок?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card care">
+            <div class="card-header">
+                <span class="phrase-number">45/72</span>
+                <span class="category">Коляски</span>
+            </div>
+            <div class="english-phrase">Is this place wheelchair and stroller accessible?</div>
+            <div class="russian-phrase">Здесь есть доступ для колясок?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <!-- БЛОК D: БЕЗОПАСНОСТЬ И НАБЛЮДЕНИЕ (46-57) -->
+        <div class="card safety">
+            <div class="card-header">
+                <span class="phrase-number">46/72</span>
+                <span class="category">Безопасность</span>
+            </div>
+            <div class="english-phrase">Is this area safe for children?</div>
+            <div class="russian-phrase">Эта территория безопасна для детей?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card safety">
+            <div class="card-header">
+                <span class="phrase-number">47/72</span>
+                <span class="category">Безопасность</span>
+            </div>
+            <div class="english-phrase">Do you have child safety locks?</div>
+            <div class="russian-phrase">У вас есть детские замки безопасности?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card safety">
+            <div class="card-header">
+                <span class="phrase-number">48/72</span>
+                <span class="category">Безопасность</span>
+            </div>
+            <div class="english-phrase">Can you put safety covers on the outlets?</div>
+            <div class="russian-phrase">Можете поставить заглушки на розетки?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card safety">
+            <div class="card-header">
+                <span class="phrase-number">49/72</span>
+                <span class="category">Наблюдение</span>
+            </div>
+            <div class="english-phrase">Do you offer babysitting services?</div>
+            <div class="russian-phrase">У вас есть услуги няни?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card safety">
+            <div class="card-header">
+                <span class="phrase-number">50/72</span>
+                <span class="category">Наблюдение</span>
+            </div>
+            <div class="english-phrase">How much does childcare cost?</div>
+            <div class="russian-phrase">Сколько стоит присмотр за детьми?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card safety">
+            <div class="card-header">
+                <span class="phrase-number">51/72</span>
+                <span class="category">Наблюдение</span>
+            </div>
+            <div class="english-phrase">Are the staff trained in childcare?</div>
+            <div class="russian-phrase">Персонал обучен работе с детьми?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card safety">
+            <div class="card-header">
+                <span class="phrase-number">52/72</span>
+                <span class="category">Потеря</span>
+            </div>
+            <div class="english-phrase">I can't find my child</div>
+            <div class="russian-phrase">Не могу найти своего ребенка</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card safety">
+            <div class="card-header">
+                <span class="phrase-number">53/72</span>
+                <span class="category">Потеря</span>
+            </div>
+            <div class="english-phrase">My child is missing</div>
+            <div class="russian-phrase">Мой ребенок пропал</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card safety">
+            <div class="card-header">
+                <span class="phrase-number">54/72</span>
+                <span class="category">Потеря</span>
+            </div>
+            <div class="english-phrase">He's 5 years old, wearing a red shirt</div>
+            <div class="russian-phrase">Ему 5 лет, в красной рубашке</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card safety">
+            <div class="card-header">
+                <span class="phrase-number">55/72</span>
+                <span class="category">Потеря</span>
+            </div>
+            <div class="english-phrase">Can you make an announcement?</div>
+            <div class="russian-phrase">Можете сделать объявление?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card safety">
+            <div class="card-header">
+                <span class="phrase-number">56/72</span>
+                <span class="category">Потеря</span>
+            </div>
+            <div class="english-phrase">Please check the security cameras</div>
+            <div class="russian-phrase">Проверьте камеры видеонаблюдения</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card safety">
+            <div class="card-header">
+                <span class="phrase-number">57/72</span>
+                <span class="category">Потеря</span>
+            </div>
+            <div class="english-phrase">Where should I wait?</div>
+            <div class="russian-phrase">Где мне ждать?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <!-- БЛОК E: МЕДИЦИНА И ЭКСТРЕННЫЕ СИТУАЦИИ (58-67) -->
+        <div class="card emergencies">
+            <div class="card-header">
+                <span class="phrase-number">58/72</span>
+                <span class="category">Медицина</span>
+            </div>
+            <div class="english-phrase">My child needs a doctor</div>
+            <div class="russian-phrase">Моему ребенку нужен врач</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card emergencies">
+            <div class="card-header">
+                <span class="phrase-number">59/72</span>
+                <span class="category">Медицина</span>
+            </div>
+            <div class="english-phrase">Where's the nearest pediatrician?</div>
+            <div class="russian-phrase">Где ближайший педиатр?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card emergencies">
+            <div class="card-header">
+                <span class="phrase-number">60/72</span>
+                <span class="category">Медицина</span>
+            </div>
+            <div class="english-phrase">My child has a fever</div>
+            <div class="russian-phrase">У моего ребенка температура</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card emergencies">
+            <div class="card-header">
+                <span class="phrase-number">61/72</span>
+                <span class="category">Медицина</span>
+            </div>
+            <div class="english-phrase">Do you have children's medicine?</div>
+            <div class="russian-phrase">У вас есть детские лекарства?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card emergencies">
+            <div class="card-header">
+                <span class="phrase-number">62/72</span>
+                <span class="category">Медицина</span>
+            </div>
+            <div class="english-phrase">My child is allergic to peanuts</div>
+            <div class="russian-phrase">У моего ребенка аллергия на арахис</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card emergencies">
+            <div class="card-header">
+                <span class="phrase-number">63/72</span>
+                <span class="category">Травмы</span>
+            </div>
+            <div class="english-phrase">My child fell and hurt their knee</div>
+            <div class="russian-phrase">Мой ребенок упал и повредил колено</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card emergencies">
+            <div class="card-header">
+                <span class="phrase-number">64/72</span>
+                <span class="category">Травмы</span>
+            </div>
+            <div class="english-phrase">Do you have a first aid kit?</div>
+            <div class="russian-phrase">У вас есть аптечка первой помощи?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card emergencies">
+            <div class="card-header">
+                <span class="phrase-number">65/72</span>
+                <span class="category">Травмы</span>
+            </div>
+            <div class="english-phrase">Can you call an ambulance?</div>
+            <div class="russian-phrase">Можете вызвать скорую?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card emergencies">
+            <div class="card-header">
+                <span class="phrase-number">66/72</span>
+                <span class="category">Травмы</span>
+            </div>
+            <div class="english-phrase">This is an emergency</div>
+            <div class="russian-phrase">Это экстренная ситуация</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card emergencies">
+            <div class="card-header">
+                <span class="phrase-number">67/72</span>
+                <span class="category">Успокоение</span>
+            </div>
+            <div class="english-phrase">My child is very upset</div>
+            <div class="russian-phrase">Мой ребенок очень расстроен</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <!-- БЛОК F: ВЕЖЛИВОСТЬ И ЗАВЕРШЕНИЕ (68-72) -->
+        <div class="card entertainment">
+            <div class="card-header">
+                <span class="phrase-number">68/72</span>
+                <span class="category">Общение</span>
+            </div>
+            <div class="english-phrase">Can you speak to my child in English?</div>
+            <div class="russian-phrase">Можете поговорить с ребенком по-английски?</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card entertainment">
+            <div class="card-header">
+                <span class="phrase-number">69/72</span>
+                <span class="category">Общение</span>
+            </div>
+            <div class="english-phrase">My child is learning English</div>
+            <div class="russian-phrase">Мой ребенок изучает английский</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card entertainment">
+            <div class="card-header">
+                <span class="phrase-number">70/72</span>
+                <span class="category">Благодарность</span>
+            </div>
+            <div class="english-phrase">Thank you for being so patient</div>
+            <div class="russian-phrase">Спасибо за терпение</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card entertainment">
+            <div class="card-header">
+                <span class="phrase-number">71/72</span>
+                <span class="category">Благодарность</span>
+            </div>
+            <div class="english-phrase">You've been very helpful</div>
+            <div class="russian-phrase">Вы очень помогли</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+
+        <div class="card entertainment">
+            <div class="card-header">
+                <span class="phrase-number">72/72</span>
+                <span class="category">Прощание</span>
+            </div>
+            <div class="english-phrase">The kids had a wonderful time</div>
+            <div class="russian-phrase">Дети замечательно провели время</div>
+            <div class="audio-buttons">
+                <button class="audio-btn" onclick="playAudio(this, 'slow')">🌱 Slow</button>
+                <button class="audio-btn" onclick="playAudio(this, 'natural')">⚡ Natural</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentAudio = null;
+        let currentButton = null;
+
+        function playAudio(button, speed) {
+            // Останавливаем предыдущее аудио
+            if (currentAudio) {
+                currentAudio.pause();
+                if (currentButton) {
+                    currentButton.classList.remove('playing');
+                }
+            }
+
+            const phraseNumber = button.closest('.card')
+                .querySelector('.phrase-number').textContent.split('/')[0];
+            
+            // Создаем путь к аудиофайлу для модуля 18
+            const paddedNumber = phraseNumber.padStart(3, '0');
+            const audioUrl = `./audio/module18/phrase_${paddedNumber}_${speed}.mp3`;
+            
+            // Играем реальное аудио
+            playRealAudio(audioUrl, button);
+        }
+
+        // Функция для реального аудио
+        function playRealAudio(audioUrl, button) {
+            currentAudio = new Audio(audioUrl);
+            currentButton = button;
+            
+            // Индикация загрузки
+            button.classList.add('loading');
+            const originalText = button.textContent;
+            button.textContent = '⏳ Loading...';
+            
+            currentAudio.addEventListener('loadstart', () => {
+                console.log('Начинается загрузка аудио:', audioUrl);
+            });
+            
+            currentAudio.addEventListener('canplay', () => {
+                button.classList.remove('loading');
+                button.classList.add('playing');
+                button.textContent = originalText;
+                currentAudio.play();
+            });
+            
+            currentAudio.addEventListener('ended', () => {
+                button.classList.remove('playing');
+                currentButton = null;
+                currentAudio = null;
+            });
+            
+            currentAudio.addEventListener('error', (e) => {
+                console.error('Ошибка загрузки аудио:', audioUrl, e);
+                button.classList.remove('loading', 'playing');
+                button.textContent = '❌ Audio N/A';
+                setTimeout(() => {
+                    button.textContent = originalText;
+                }, 2000);
+                currentButton = null;
+                currentAudio = null;
+            });
+        }
+
+        // Функция экспорта в PDF
+        function exportToPDF() {
+            const printButton = document.querySelector('.export-btn');
+            printButton.textContent = '📄 Подготовка к печати...';
+            printButton.disabled = true;
+            
+            setTimeout(() => {
+                window.print();
+                printButton.textContent = '📄 Экспорт в PDF';
+                printButton.disabled = false;
+            }, 500);
+        }
+
+        // Горячие клавиши
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key === 'p') {
+                e.preventDefault();
+                exportToPDF();
+            }
+        });
+    </script>
+</body>
+</html>
